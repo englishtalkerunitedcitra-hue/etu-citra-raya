@@ -25,3 +25,15 @@
 #etu-page .etu-photo-full{width:100%;height:auto;max-height:65dvh;object-fit:contain;background:#e2e9da;border-radius:10px}
 .etu-photo-dialog>p{font-size:12px;margin-bottom:0;color:#586b64}
 @media(max-width:760px){.etu-classroom-layout{grid-template-columns:1fr;gap:28px}.etu-classroom-info h3{font-size:29px}.etu-classroom-zoom{bottom:12px;right:12px}.etu-photo-toolbar h2{font-size:14px}#etu-page .etu-photo-dialog{padding:14px}.etu-classroom-info .etu-btn{width:100%;text-align:center}}
+
+/* Program posters keep their original proportions at every screen width. */
+#etu-page .etu-programs .etu-cardimg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: none;
+  aspect-ratio: auto;
+  object-fit: contain;
+  object-position: center top;
+  background: #fff;
+}
