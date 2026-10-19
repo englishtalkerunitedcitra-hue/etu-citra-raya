@@ -9,14 +9,26 @@ menu.addEventListener('click', () => {
 });
 links.addEventListener('click', event => { if (event.target.closest('a')) closeMenu(); });
 document.addEventListener('keydown', event => { if (event.key === 'Escape' && menu.getAttribute('aria-expanded') === 'true') { closeMenu(); menu.focus(); } });
+document.querySelector('#etu-page')?.classList.add('etu-menu-enabled');
 const programs = ['Small Talker', 'Kid Talker', 'Junior Talker', 'Senior Talker', 'Adult Talker'];
+const programKeys = ['small', 'kid', 'junior', 'senior', 'adult'];
 const cards = [...document.querySelectorAll('.etu-card')];
 const finder = document.querySelector('#etu-age-filter');
+const ageLinks = [...document.querySelectorAll('[data-program-filter]')];
 finder.addEventListener('change', () => {
-  const index = finder.selectedIndex - 1;
+  const index = programKeys.indexOf(finder.value);
   cards.forEach((card, i) => { card.hidden = index >= 0 && i !== index; card.classList.toggle('is-match', i === index); });
+  ageLinks.forEach(link => {
+    if (link.dataset.programFilter === finder.value) link.setAttribute('aria-current', 'true');
+    else link.removeAttribute('aria-current');
+  });
   document.querySelector('#etu-match').textContent = index < 0 ? 'Menampilkan semua program.' : `${programs[index]} dapat menjadi pilihan awal. Tim ETU akan membantu menyesuaikan level dan kebutuhan belajar.`;
 });
+ageLinks.forEach(link => link.addEventListener('click', event => {
+  if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+  finder.value = link.dataset.programFilter;
+  finder.dispatchEvent(new Event('change'));
+}));
 const form = document.querySelector('#etu-trial-form');
 form.addEventListener('submit', event => {
   event.preventDefault();
@@ -36,6 +48,12 @@ form.addEventListener('submit', event => {
 });
 form.elements.namedItem('learner').addEventListener('input', event => event.target.setCustomValidity(''));
 form.addEventListener('input', () => document.querySelector('#etu-trial-result').replaceChildren());
+document.querySelectorAll('[data-trial-program]').forEach(link => link.addEventListener('click', event => {
+  if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+  form.elements.namedItem('program').value = link.dataset.trialProgram;
+  document.querySelector('#etu-trial-result').replaceChildren();
+  form.elements.namedItem('learner').focus({ preventScroll: true });
+}));
 document.querySelectorAll('a.etu-primary:not(.etu-classroom-visit), a.etu-bookbtn').forEach(anchor => {
   anchor.href = '#etu-trial'; anchor.removeAttribute('target'); anchor.removeAttribute('rel');
 });
