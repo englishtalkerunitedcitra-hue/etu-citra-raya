@@ -1,15 +1,4 @@
 'use strict';
-const menu = document.querySelector('.etu-menu');
-const links = document.querySelector('.etu-links');
-function closeMenu() { links.classList.remove('is-open'); menu.setAttribute('aria-expanded', 'false'); }
-menu.addEventListener('click', () => {
-  const open = menu.getAttribute('aria-expanded') !== 'true';
-  menu.setAttribute('aria-expanded', String(open));
-  links.classList.toggle('is-open', open);
-});
-links.addEventListener('click', event => { if (event.target.closest('a')) closeMenu(); });
-document.addEventListener('keydown', event => { if (event.key === 'Escape' && menu.getAttribute('aria-expanded') === 'true') { closeMenu(); menu.focus(); } });
-document.querySelector('#etu-page')?.classList.add('etu-menu-enabled');
 const programs = ['Small Talker', 'Kid Talker', 'Junior Talker', 'Senior Talker', 'Adult Talker'];
 const programKeys = ['small', 'kid', 'junior', 'senior', 'adult'];
 const cards = [...document.querySelectorAll('.etu-card')];
@@ -119,3 +108,14 @@ document.querySelectorAll('img').forEach(img => {
     img.src = 'brand-placeholder.svg';
   }, { once: true });
 });
+
+const fullTrialLink = document.querySelector('a[href="trial/?source=homepage"]');
+function syncFullTrialLink() {
+  const selected = form.elements.namedItem('program').value;
+  const index = programs.indexOf(selected);
+  const query = new URLSearchParams({ source: 'homepage' });
+  if (index >= 0) query.set('program', `${programKeys[index]}-talker`);
+  fullTrialLink.href = `trial/?${query}`;
+}
+form.elements.namedItem('program').addEventListener('change', syncFullTrialLink);
+document.querySelectorAll('[data-trial-program]').forEach(link => link.addEventListener('click', syncFullTrialLink));

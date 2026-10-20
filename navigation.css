@@ -1,0 +1,9 @@
+.etu-menu{display:none;font:inherit;color:#075bb9;background:#fff;border:1px solid #aacbea;border-radius:10px;padding:10px 12px;cursor:pointer}
+.etu-menu:focus-visible{outline:3px solid #f8b72b;outline-offset:3px}
+@media(max-width:980px){
+  .nav{position:relative;flex-wrap:wrap}
+  .etu-menu-enabled .etu-menu{display:inline-flex}
+  .etu-menu-enabled .etu-links{display:none;position:absolute;top:100%;left:0;right:0;z-index:20;flex-direction:column;align-items:stretch;gap:0;padding:12px;background:#fff;border:1px solid #dce7f2;border-radius:0 0 12px 12px;box-shadow:0 12px 24px #073f8620}
+  .etu-menu-enabled .etu-links.is-open{display:flex}
+  .etu-links a{padding:12px;font-size:14px}
+}
