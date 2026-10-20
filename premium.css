@@ -296,3 +296,5 @@ body{margin:0;background:#fff}
 
 /* Preserve the full classroom collage without a forced crop. */
 .etu-classroom-open img{aspect-ratio:auto}
+
+.etu-float .etu-whatsapp-icon{display:block;width:30px;height:30px;flex-shrink:0}
