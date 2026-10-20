@@ -109,6 +109,12 @@ if (certificateDialog && typeof certificateDialog.showModal === 'function') {
 }
 document.querySelectorAll('img').forEach(img => {
   img.addEventListener('error', () => {
+    if (img.hasAttribute('data-brand-logo')) {
+      img.hidden = true;
+      const fallback = img.parentElement.querySelector('.etu-brand-fallback');
+      if (fallback) fallback.hidden = false;
+      return;
+    }
     img.classList.add('etu-image-fallback');
     img.src = 'brand-placeholder.svg';
   }, { once: true });

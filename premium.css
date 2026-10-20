@@ -206,3 +206,26 @@ body{margin:0;background:#fff}
 @media(max-width:1000px){.etu-cambridge-layout{gap:28px}.etu-certificate-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.etu-cambridge-layout{grid-template-columns:1fr;gap:26px}.etu-cambridge-copy h2{font-size:34px}.etu-cambridge-copy .etu-cambridge-lead{font-size:19px}.etu-cambridge-cta{width:100%}.etu-certificate-gallery{gap:12px}.etu-certificate-photo figcaption{font-size:11px;padding:10px 12px}.etu-certificate-zoom{bottom:8px;right:8px;font-size:10px;padding:6px 10px}}
 @media(max-width:400px){.etu-certificate-gallery{grid-template-columns:1fr}}
+
+/* Official Cambridge product branding and CEFR reference levels. */
+.etu-cambridge-brand{display:inline-flex;align-items:center;min-height:84px;max-width:100%;margin:0 0 22px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px}
+#etu-page .etu-cambridge-brand img{width:290px;max-width:100%;height:auto;object-fit:contain}
+.etu-brand-fallback{font-weight:700;font-size:18px;color:var(--b)}
+.etu-cefr{background:#fff;border:1px solid var(--line);border-radius:22px;padding:32px;margin-top:40px;scroll-margin-top:130px}
+.etu-cefr-heading{max-width:760px}
+.etu-cefr-heading h3{font-size:30px;letter-spacing:-1px;margin:10px 0 16px}
+.etu-cefr-heading p{font-size:14px;color:var(--m);margin-bottom:22px}
+.etu-cefr-foundation{display:flex;align-items:center;gap:16px;padding:16px 20px;background:#f0f7ff;border:1px solid var(--line);border-radius:12px;margin-bottom:18px}
+.etu-cefr-foundation>span{flex-shrink:0;font-size:17px;font-weight:800;color:var(--b)}
+.etu-cefr-foundation p{font-size:13px;margin:0;color:var(--m)}
+.etu-cefr-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.etu-cefr-group{border:1px solid var(--line);border-radius:14px;padding:20px;min-width:0}
+.etu-cefr-group h4{color:var(--b);font-size:12px;letter-spacing:.7px;text-transform:uppercase;margin:0 0 16px}
+.etu-cefr-level{display:flex;align-items:flex-start;gap:12px;padding:16px 0;border-top:1px solid var(--line)}
+.etu-cefr-level:last-child{padding-bottom:0}
+.etu-cefr-level>span{flex-shrink:0;border-radius:10px;background:var(--b);color:#fff;font-weight:800;font-size:22px;width:48px;height:48px;display:grid;place-items:center}
+.etu-cefr-level strong{font-size:13px;line-height:1.5;display:block}
+.etu-cefr-level small{display:block;font-size:10px;line-height:1.6;color:var(--m);margin-top:4px}
+.etu-cefr-note{font-size:12px;color:var(--m);margin:20px 0 12px}
+@media(max-width:900px){.etu-cefr-grid{grid-template-columns:1fr}.etu-cefr-group{display:grid;grid-template-columns:1fr 1fr;gap:0 20px}.etu-cefr-group h4{grid-column:1/-1}.etu-cefr-level:last-child{padding-bottom:16px}}
+@media(max-width:650px){.etu-cefr{padding:22px;scroll-margin-top:100px}.etu-cefr-heading h3{font-size:27px}.etu-cefr-foundation{padding:14px;align-items:start;gap:12px}.etu-cefr-group{display:block;padding:18px}.etu-cefr-level:last-child{padding-bottom:0}.etu-cambridge-brand{padding:12px 16px;min-height:72px}.etu-cefr-heading p{font-size:13px}}
