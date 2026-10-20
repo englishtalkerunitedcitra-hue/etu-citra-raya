@@ -58,7 +58,7 @@ document.querySelectorAll('a.etu-primary:not(.etu-classroom-visit), a.etu-bookbt
   anchor.href = '#etu-trial'; anchor.removeAttribute('target'); anchor.removeAttribute('rel');
 });
 const photoLink = document.querySelector('.etu-classroom-open');
-const photoDialog = document.querySelector('.etu-photo-dialog');
+const photoDialog = document.querySelector('.etu-photo-dialog:not(.etu-certificate-dialog)');
 if (photoLink && photoDialog && typeof photoDialog.showModal === 'function') {
   photoLink.setAttribute('aria-haspopup', 'dialog');
   photoLink.addEventListener('click', event => {
@@ -81,6 +81,31 @@ function reportClassroomImageError() {
 if (classroomImage) {
   classroomImage.addEventListener('error', reportClassroomImageError, { once: true });
   if (classroomImage.complete && classroomImage.naturalWidth === 0) reportClassroomImageError();
+}
+const certificateDialog = document.querySelector('.etu-certificate-dialog');
+const certificateLinks = [...document.querySelectorAll('[data-certificate-photo]')];
+let certificateReturnFocus = null;
+if (certificateDialog && typeof certificateDialog.showModal === 'function') {
+  certificateLinks.forEach(link => {
+    link.setAttribute('aria-haspopup', 'dialog');
+    link.addEventListener('click', event => {
+      if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      certificateReturnFocus = link;
+      const fullImage = certificateDialog.querySelector('.etu-certificate-full');
+      fullImage.src = link.href;
+      fullImage.alt = link.querySelector('img').alt;
+      certificateDialog.querySelector('.etu-certificate-caption').textContent = link.dataset.caption;
+      certificateDialog.showModal();
+    });
+  });
+  certificateDialog.querySelector('.etu-certificate-close').addEventListener('click', () => certificateDialog.close());
+  certificateDialog.addEventListener('click', event => {
+    if (event.target !== certificateDialog) return;
+    const rect = certificateDialog.getBoundingClientRect();
+    if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) certificateDialog.close();
+  });
+  certificateDialog.addEventListener('close', () => certificateReturnFocus?.focus());
 }
 document.querySelectorAll('img').forEach(img => {
   img.addEventListener('error', () => {
