@@ -1,0 +1,266 @@
+:root{color-scheme:light;scroll-behavior:smooth;scroll-padding-top:114px}
+body{margin:0;background:#fff}
+#etu-page{--b:#075bb9;--bd:#06468e;--n:#14385d;--m:#53677e;--line:#dce7f2;--pale:#f0f7ff;--g:#075bb9;font-family:Arial,Helvetica,sans-serif;color:var(--n);font-size:16px;line-height:1.65;overflow-x:clip}
+#etu-page *,#etu-page *::before,#etu-page *::after{box-sizing:border-box}
+#etu-page [hidden]{display:none!important}
+#etu-page a{color:inherit;text-decoration:none}
+#etu-page a:hover{text-decoration:underline;text-underline-offset:4px}
+#etu-page img{display:block;max-width:100%}
+#etu-page button,#etu-page input,#etu-page select{font:inherit}
+#etu-page button{cursor:pointer}
+#etu-page a:focus-visible,#etu-page button:focus-visible,#etu-page input:focus-visible,#etu-page select:focus-visible,#etu-page summary:focus-visible{outline:3px solid #f2aa22;outline-offset:4px}
+#etu-page h1,#etu-page h2,#etu-page h3,#etu-page h4{line-height:1.15}
+.etu-wrap{width:min(1200px,calc(100% - 64px));margin-inline:auto}
+.etu-section{padding:88px 0}
+.etu-kicker{color:var(--b);font-size:11px;line-height:1.5;font-weight:800;letter-spacing:1.8px;text-transform:uppercase}
+.etu-head{max-width:750px;text-align:center;margin:0 auto 36px}
+.etu-head h2,.etu-intro h2,.etu-visit h2{font-size:clamp(30px,3.5vw,46px);letter-spacing:-1.6px;margin:12px 0 18px;font-weight:800}
+.etu-head p{font-size:16px;color:var(--m);margin:0}
+.etu-skip{position:fixed;z-index:1000;top:-100px;left:20px;background:#fff;padding:12px 18px;border-radius:10px}
+.etu-skip:focus{top:10px}
+.etu-utility{background:var(--b);color:#fff;font-size:11px;letter-spacing:.3px;padding:8px 0}
+.etu-utility .etu-wrap{display:flex;justify-content:space-between;gap:15px}
+.etu-nav{position:sticky;top:0;background:#fffffffa;backdrop-filter:blur(16px);border-bottom:1px solid var(--line);z-index:100}
+.etu-navin{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:92px}
+.etu-brand{flex-shrink:0}
+.etu-logo{width:154px;height:60px;object-fit:contain}
+.etu-links{display:flex;align-items:center;gap:22px}
+.etu-links a{font-size:13px;font-weight:700;white-space:nowrap}
+.etu-links a:hover{color:var(--b)}
+.etu-wa,.etu-btn,.etu-bookbtn,.etu-submit{display:inline-flex;align-items:center;justify-content:center;gap:12px;border-radius:999px;padding:14px 24px;font-size:14px;font-weight:700;min-height:50px;line-height:1.4}
+#etu-page .etu-wa,#etu-page .etu-primary,#etu-page .etu-submit{background:var(--b);color:#fff;border:1px solid var(--b)}
+#etu-page .etu-wa:hover,#etu-page .etu-primary:hover,#etu-page .etu-submit:hover{background:var(--bd);text-decoration:none}
+.etu-wa{font-size:12px;padding:12px 18px;min-height:46px;white-space:nowrap}
+.etu-menu{display:none}
+.etu-outline{color:var(--b);border:1px solid #a6c8ed;background:#fff}
+#etu-page .etu-outline:hover{background:#e8f3ff;text-decoration:none}
+.etu-actions{display:flex;flex-wrap:wrap;gap:12px}
+.etu-hero{position:relative;background:linear-gradient(110deg,#fff 25%,#f1f8ff 100%);padding:52px 0 62px}
+.etu-heroin{display:grid;grid-template-columns:1.1fr 1fr;align-items:center;gap:52px;min-height:540px}
+.etu-herocopy{padding:10px 0 26px;position:relative;z-index:1}
+.etu-tag{display:inline-block;color:var(--b);font-size:11px;letter-spacing:1.5px;font-weight:800}
+.etu-h1{font-size:clamp(45px,5.4vw,74px);letter-spacing:-3.8px;margin:20px 0 24px;font-weight:800;line-height:1.04!important}
+.etu-h1 span{color:var(--b)}
+.etu-lead{font-size:17px;color:var(--m);max-width:520px;margin:0 0 30px;line-height:1.8}
+.etu-hero-proof{display:flex;flex-wrap:wrap;gap:22px;margin-top:34px;padding-top:22px;border-top:1px solid var(--line);max-width:500px}
+.etu-hero-proof>span{font-size:11px;color:var(--m);display:flex;flex-direction:column;gap:1px}
+.etu-hero-proof b{font-size:24px;color:var(--b);line-height:1.25;letter-spacing:-.5px}
+.etu-heroimgbox{position:relative;min-width:0;padding:16px 10px 54px;isolation:isolate}
+.etu-hero-orbit{position:absolute;background:#dcedff;border-radius:50%;width:98%;aspect-ratio:1;top:3%;right:-8%;z-index:-1}
+.etu-hero-orbit::after{content:"";position:absolute;inset:20px;border:1px solid #b4d5fa;border-radius:50%}
+.etu-heroimg{width:100%;height:auto;max-height:500px;object-fit:contain;background:#fff;border-radius:24px;box-shadow:0 20px 55px #075bb91a;border:6px solid #fff}
+.etu-hero-caption{position:absolute;bottom:16px;left:0;right:24px;display:flex;align-items:center;gap:14px;background:#fff;padding:18px 22px;border:1px solid var(--line);box-shadow:0 10px 28px #075bb914;border-radius:16px}
+.etu-hero-caption strong{display:block;font-size:15px;line-height:1.4}
+.etu-hero-caption div>span{display:block;font-size:12px;color:var(--m);margin-top:4px}
+.etu-hero-spark{font-size:32px;color:var(--b);line-height:1}
+.etu-age-nav{background:#fff;border-bottom:1px solid var(--line);padding:27px 0 30px}
+.etu-age-nav p{font-size:10px;font-weight:800;letter-spacing:1.4px;color:var(--m);margin:0 0 18px}
+.etu-age-links{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.etu-age-links>a{position:relative;display:block;border:1px solid var(--line);border-radius:12px;padding:14px 32px 14px 16px;background:#fff}
+.etu-age-links>a span{display:block;color:var(--b);font-size:17px;font-weight:800;line-height:1.4}
+.etu-age-links>a strong{display:block;font-size:11px;font-weight:500;color:var(--m);margin-top:2px}
+.etu-age-links i{position:absolute;top:16px;right:14px;color:var(--b);font-style:normal}
+#etu-page .etu-age-links>a:hover,#etu-page .etu-age-links>a[aria-current="true"]{background:var(--pale);border-color:#78b4f3;text-decoration:none}
+.etu-intro{padding:72px 0}
+.etu-intro-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.etu-intro h2{font-size:34px}
+.etu-intro p{color:var(--m);font-size:15px;margin:0 0 16px}
+#etu-page .etu-text-link{color:var(--b);font-size:14px;font-weight:700;display:inline-block;padding:5px 0}
+#etu-programs{background:var(--pale)}
+.etu-finder{max-width:800px;margin:0 auto 30px;padding:18px 24px;border:1px solid var(--line);border-radius:14px;background:#fff;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.etu-finder label{font-size:14px;font-weight:700}
+#etu-page input,#etu-page select{min-height:48px;border:1px solid #b4cbe3;border-radius:9px;padding:10px 12px;background:#fff;color:var(--n);max-width:100%}
+.etu-match{flex-basis:100%;font-size:13px;text-align:center;color:var(--m);margin:0}
+.etu-programs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;align-items:stretch}
+.etu-card{min-width:0;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 5px 22px #075bb907;scroll-margin-top:120px}
+#etu-page .etu-programs .etu-cardimg{display:block;width:100%;height:auto;max-height:none;aspect-ratio:auto;object-fit:contain;object-position:center top;background:#fff}
+.etu-cardbody{padding:24px;display:flex;flex:1;flex-direction:column;gap:12px;border-top:1px solid #edf3fa}
+.etu-title{font-size:20px;margin:0;letter-spacing:-.5px}
+.etu-age{display:inline-block;font-size:12px;font-weight:700;color:var(--b)}
+.etu-desc{font-size:14px;color:var(--m);line-height:1.7;flex:1}
+.etu-program-detail{font-size:13px;border-block:1px solid var(--line);padding:10px 0}
+.etu-program-detail summary{cursor:pointer;font-weight:700}
+.etu-program-detail p{color:var(--m);margin:10px 0 0}
+#etu-page .etu-program-trial{display:block;border-radius:999px;padding:12px;text-align:center;background:var(--b);color:#fff;font-size:13px;font-weight:700;line-height:1.5}
+#etu-page .etu-program-trial:hover{background:var(--bd);text-decoration:none}
+#etu-page .etu-cardbtn{color:var(--b);font-size:12px;text-align:center;padding:8px 0}
+.etu-card.is-match{border-color:var(--b);box-shadow:0 0 0 2px #075bb918}
+.etu-why{background:#fff}
+.etu-whygrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:22px}
+.etu-whyitem{padding:22px 12px 12px}
+.etu-wicon{width:48px;height:48px;display:grid;place-items:center;border-radius:14px;background:#e8f3ff;font-size:22px;color:var(--b);margin-bottom:18px}
+.etu-whyitem h4{font-size:16px;margin:0 0 12px}
+.etu-whyitem p{font-size:13px;line-height:1.8;color:var(--m);margin:0}
+#etu-about{background:#f7faff}
+.etu-method{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:stretch}
+.etu-methodphoto{overflow:hidden;border-radius:22px;display:flex;align-items:center;background:#fff;border:1px solid var(--line)}
+.etu-methodphoto img{width:100%;height:auto;object-fit:contain}
+.etu-methodbox{background:var(--b);color:#fff;border-radius:22px;padding:36px}
+.etu-methodbox h3{font-size:28px;letter-spacing:-.7px;margin:0 0 16px}
+.etu-methodbox>p{color:#e2edff;font-size:14px;margin:0 0 24px}
+.etu-step{padding:17px 0;border-top:1px solid #ffffff40}
+.etu-step b{font-size:15px}
+.etu-step span{display:block;color:#e2edff;font-size:13px;margin-top:5px}
+.etu-classrooms{background:#fff}
+.etu-classroom-layout{display:grid;grid-template-columns:1.15fr 1fr;gap:50px;align-items:center}
+.etu-classroom-photo{min-width:0;margin:0;overflow:hidden;border:1px solid var(--line);border-radius:20px;background:#fff}
+.etu-classroom-open{position:relative;display:block}
+.etu-classroom-open img{width:100%;height:auto;aspect-ratio:4/3;object-fit:contain;background:var(--pale)}
+.etu-classroom-zoom{position:absolute;bottom:16px;right:16px;padding:10px 16px;background:#fff;color:var(--b);font-size:12px;font-weight:700;border-radius:999px;box-shadow:0 3px 20px #075bb918}
+.etu-classroom-photo figcaption{padding:18px 22px;font-size:14px;font-weight:700}
+.etu-classroom-photo figcaption span{display:block;font-size:12px;color:var(--m);font-weight:400;margin-top:4px}
+.etu-classroom-info h3{font-size:32px;letter-spacing:-1px;margin:14px 0 20px}
+.etu-classroom-info p{font-size:15px;color:var(--m)}
+.etu-classroom-info address{font-style:normal;font-size:14px;margin:22px 0}
+.etu-classroom-info .etu-classroom-note{font-size:12px}
+.etu-classroom-error{padding:0 22px 18px;margin:0;font-size:13px;color:#784914}
+#etu-page .etu-photo-dialog{width:min(960px,calc(100% - 32px));max-width:960px;max-height:90dvh;overflow:auto;border:0;border-radius:18px;padding:20px;background:#fff;color:var(--n);box-sizing:border-box}
+.etu-photo-dialog::backdrop{background:#071d3fd9}
+.etu-photo-toolbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:16px}
+.etu-photo-toolbar h2{font-size:16px;line-height:1.4;margin:0}
+.etu-photo-close{padding:10px 16px;min-height:44px;flex-shrink:0;border:1px solid #b4cbe3;border-radius:999px;background:#fff;color:var(--b)}
+.etu-photo-full{width:100%;height:auto;max-height:65dvh;object-fit:contain;background:var(--pale);border-radius:10px}
+.etu-photo-dialog>p{font-size:12px;margin-bottom:0;color:var(--m)}
+.etu-testimonials{background:var(--pale)}
+.etu-testimonial-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.etu-testimonial-card{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:18px;background:#fff;padding:30px}
+.etu-testimonial-text{font-size:16px;line-height:1.85;margin:0 0 24px;flex:1}
+.etu-testimonial-author{font-size:13px;border-top:1px solid var(--line);padding-top:16px;margin:0}
+.etu-testimonial-author span{display:block;color:var(--m);font-size:12px;margin-top:4px}
+.etu-trial-layout{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.etu-trial .etu-head{text-align:left;margin:0}
+.etu-trial-steps{padding:0;margin:32px 0 0;list-style:none;display:grid;gap:22px}
+.etu-trial-steps li{display:flex;gap:16px;align-items:flex-start}
+.etu-trial-steps li>span{flex-shrink:0;width:40px;height:40px;display:grid;place-items:center;background:#e8f3ff;border-radius:50%;font-size:12px;color:var(--b);font-weight:800}
+.etu-trial-steps strong{font-size:15px}
+.etu-trial-steps p{font-size:13px;margin-top:4px}
+.etu-trial form{padding:32px;background:var(--pale);border:1px solid var(--line);border-radius:22px;display:grid;gap:18px;min-width:0}
+.etu-field{display:grid;gap:6px}
+.etu-field label{font-size:13px;font-weight:700}
+.etu-form-note{font-size:12px;color:var(--m);margin:0}
+.etu-submit{width:100%}
+.etu-form-result{font-size:14px;margin:0}
+.etu-form-result:empty{display:none}
+#etu-page .etu-form-result a{display:block;background:#fff;border:1px solid var(--b);border-radius:10px;color:var(--b);font-weight:700;padding:14px;margin-top:10px}
+.etu-visit{background:var(--pale)}
+.etu-visit-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:28px}
+.etu-visit-card{padding:38px;background:#fff;border:1px solid var(--line);border-radius:22px}
+.etu-visit h2{font-size:40px}
+.etu-visit p{font-size:15px;color:var(--m)}
+.etu-visit address{font-style:normal;font-size:15px;margin:24px 0}
+.etu-visit-card .etu-small{font-size:12px;margin-bottom:0}
+.etu-visit-aside{border-radius:22px;background:#dcedff;padding:38px;display:flex;flex-direction:column;justify-content:center}
+.etu-pin{font-size:44px;color:var(--b);line-height:1;margin-bottom:20px}
+.etu-visit-aside h3{font-size:30px;letter-spacing:-1px;margin:0 0 10px}
+.etu-faq{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start;max-width:1000px;margin:auto}
+.etu-faq details{padding:0 20px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.etu-faq summary{padding:20px 0;cursor:pointer;font-size:14px;font-weight:700}
+.etu-faq details p{font-size:14px;color:var(--m);padding-bottom:20px;margin:0}
+.etu-book{padding:54px 0;background:var(--b);color:#fff}
+.etu-bookin{display:flex;align-items:center;justify-content:space-between;gap:36px}
+.etu-book .etu-kicker{color:#dcecff}
+.etu-book h2{font-size:34px;letter-spacing:-1px;margin:12px 0}
+.etu-book p{margin:0;color:#e2edff;font-size:14px}
+#etu-page .etu-bookbtn{flex-shrink:0;background:#fff;color:var(--b)}
+.etu-footer{padding:50px 0 22px;background:#f7faff}
+.etu-fgrid{display:grid;grid-template-columns:1.25fr .8fr 1fr .9fr;gap:34px}
+.etu-flogo{width:150px;height:auto;margin-bottom:18px}
+.etu-footer h4{font-size:14px;margin:0 0 18px}
+.etu-footer p,.etu-footer a{font-size:13px;color:var(--m)}
+.etu-footer p{margin:0}
+.etu-footer ul{list-style:none;padding:0;margin:0}
+.etu-footer li{margin:8px 0}
+.etu-copy{margin-top:35px;border-top:1px solid var(--line);padding-top:22px;font-size:11px;color:var(--m)}
+#etu-page .etu-float{position:fixed;right:20px;bottom:20px;z-index:110;width:54px;height:54px;border-radius:50%;background:var(--b);color:#fff;border:3px solid #fff;display:grid;place-items:center;font-size:12px;font-weight:800;box-shadow:0 5px 20px #075bb933;text-decoration:none}
+.etu-mobile-cta{display:none}
+.etu-image-fallback{object-fit:contain!important;padding:24px;background:#e9f4ff}
+@media(max-width:1100px){.etu-navin{gap:16px;flex-wrap:wrap;padding-block:14px}.etu-links{order:3;flex-basis:100%;justify-content:center;gap:24px}.etu-heroin{gap:32px;min-height:0}.etu-h1{font-size:58px}.etu-whygrid{grid-template-columns:repeat(3,minmax(0,1fr))}.etu-trial-layout{gap:40px}.etu-navin>.etu-wa{margin-left:auto}}
+@media(max-width:800px){:root{scroll-padding-top:145px}.etu-heroin{grid-template-columns:1fr 1fr;gap:24px}.etu-h1{font-size:46px;letter-spacing:-2px}.etu-lead{font-size:15px}.etu-hero-caption{padding:14px;right:0}.etu-hero-caption strong{font-size:13px}.etu-hero-caption div>span{font-size:11px}.etu-hero-spark{font-size:25px}.etu-age-links{gap:8px}.etu-age-links>a{padding:12px}.etu-age-links i{display:none}.etu-age-links>a span{font-size:15px}.etu-age-links>a strong{font-size:10px}.etu-programs{grid-template-columns:repeat(2,minmax(0,1fr))}.etu-intro-grid{gap:30px}.etu-intro h2{font-size:29px}.etu-method{gap:20px}.etu-methodbox{padding:26px}.etu-methodbox h3{font-size:24px}.etu-classroom-layout{gap:28px}.etu-classroom-info h3{font-size:28px}.etu-visit-grid{grid-template-columns:1fr}.etu-visit-aside{padding:28px}.etu-fgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:650px){:root{scroll-padding-top:100px}.etu-wrap{width:calc(100% - 32px)}.etu-utility{padding:7px 0;font-size:10px}.etu-navin{padding:10px 0;min-height:74px;gap:12px}.etu-logo{width:130px;height:50px}.etu-menu{display:inline-flex;gap:12px;align-items:center;justify-content:center;border:1px solid #b4cbe3;background:#fff;color:var(--b);padding:10px 16px;min-height:44px;border-radius:999px;margin-left:auto;font-size:13px}.etu-links{display:flex;flex-direction:column;align-items:stretch;gap:0;border-top:1px solid var(--line);padding-top:10px;order:3}.etu-links a{padding:12px 6px;font-size:14px}.etu-navin>.etu-wa{display:none}.etu-menu-enabled .etu-links:not(.is-open){display:none}.etu-hero{padding:34px 0 36px}.etu-heroin{grid-template-columns:1fr;gap:24px}.etu-herocopy{padding:0}.etu-tag{font-size:9px;letter-spacing:1.1px}.etu-h1{font-size:clamp(40px,11vw,64px);letter-spacing:-2.5px;margin:18px 0 22px}.etu-lead{font-size:15px;margin-bottom:24px}.etu-btn{font-size:13px;padding:13px 18px}.etu-herocopy .etu-actions{gap:10px}.etu-herocopy .etu-actions .etu-btn{flex:1;padding-inline:10px}.etu-hero-proof{gap:24px;margin-top:26px;padding-top:20px}.etu-hero-proof b{font-size:22px}.etu-hero-proof>span{font-size:10px}.etu-heroimgbox{padding:8px 14px 54px;max-width:470px;width:100%;margin:auto}.etu-heroimg{max-height:420px}.etu-hero-orbit{right:0;width:90%;top:4%}.etu-hero-caption{left:0;right:0;bottom:10px;padding:16px}.etu-hero-caption strong{font-size:14px}.etu-hero-caption div>span{font-size:11px}.etu-age-nav{padding:24px 0}.etu-age-nav p{font-size:9px;letter-spacing:1px}.etu-age-links{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.etu-age-links>a:last-child{grid-column:1/-1}.etu-age-links>a{padding:14px 16px}.etu-age-links>a span{font-size:17px}.etu-age-links>a strong{font-size:11px}.etu-age-links i{display:block}.etu-section{padding:58px 0}.etu-intro-grid,.etu-method,.etu-classroom-layout,.etu-trial-layout{grid-template-columns:1fr;gap:28px}.etu-intro h2{font-size:30px}.etu-head{margin-bottom:28px}.etu-head h2{font-size:31px;letter-spacing:-1px}.etu-head p{font-size:14px}.etu-programs{grid-template-columns:1fr}.etu-card{max-width:480px;width:100%;margin:auto}.etu-cardbody{padding:22px}.etu-finder{padding:16px;gap:12px;justify-content:stretch}.etu-finder label{flex-basis:100%}.etu-finder select{width:100%}.etu-match{text-align:left;font-size:12px}.etu-whygrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 18px}.etu-whyitem{padding:8px 0}.etu-whyitem h4{font-size:15px}.etu-wicon{margin-bottom:14px}.etu-whyitem p{font-size:12px}.etu-methodphoto{max-height:380px}.etu-methodphoto img{max-height:380px;object-fit:contain}.etu-methodbox{padding:26px}.etu-classroom-info h3{font-size:29px}.etu-classroom-info .etu-btn{width:100%}.etu-testimonial-grid{grid-template-columns:1fr;gap:16px}.etu-testimonial-card{padding:24px}.etu-testimonial-text{font-size:15px}.etu-trial .etu-head{text-align:left}.etu-trial form{padding:22px}.etu-trial-steps{gap:18px;margin-top:26px}.etu-trial-steps p{font-size:12px}.etu-visit-card{padding:26px}.etu-visit h2{font-size:34px}.etu-visit-aside h3{font-size:27px}.etu-visit .etu-actions{flex-direction:column}.etu-faq{grid-template-columns:1fr}.etu-faq summary{font-size:13px}.etu-bookin{flex-direction:column;align-items:flex-start;gap:22px}.etu-book{padding:40px 0}.etu-book h2{font-size:29px}.etu-fgrid{gap:28px 22px}.etu-fgrid>div:first-child{grid-column:1/-1}.etu-footer{padding-bottom:100px}.etu-footer p,.etu-footer a{font-size:12px}.etu-footer h4{margin-bottom:12px}.etu-copy{font-size:10px;padding-top:20px}.etu-mobile-cta{position:fixed;bottom:0;left:0;right:0;z-index:105;padding:12px 16px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:#fff;display:flex;justify-content:space-between;align-items:center;gap:12px;box-shadow:0 -4px 20px #075bb90a}.etu-mobile-cta>span{font-size:10px;line-height:1.4;max-width:120px}.etu-mobile-cta a{padding:12px 16px;border-radius:999px;background:var(--b);color:#fff!important;font-size:12px;font-weight:700;white-space:nowrap}#etu-page .etu-float{right:14px;bottom:calc(88px + env(safe-area-inset-bottom));width:48px;height:48px}#etu-page .etu-photo-dialog{padding:14px}.etu-photo-toolbar h2{font-size:14px}.etu-photo-close{padding:10px 12px;font-size:12px}}
+@media(max-width:360px){.etu-hero-proof{gap:18px}.etu-hero-proof b{font-size:20px}.etu-fgrid{grid-template-columns:1fr}.etu-hero-caption strong{font-size:12px}.etu-hero-caption div>span{font-size:10px}}
+@media(prefers-reduced-motion:reduce){:root{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* Cambridge preparation and registration, with uncropped documentary photos. */
+.etu-cambridge{background:#f0f7ff}
+.etu-cambridge-layout{display:grid;grid-template-columns:1fr 1.1fr;gap:48px;align-items:center}
+.etu-cambridge-copy h2{font-size:clamp(30px,3.6vw,46px);letter-spacing:-1.5px;margin:12px 0 20px;color:var(--b)}
+.etu-cambridge-copy>p{font-size:15px;color:var(--m)}
+.etu-cambridge-copy .etu-cambridge-lead{font-size:21px;color:var(--n);line-height:1.5;margin-bottom:18px}
+.etu-cambridge-services{list-style:none;padding:0;margin:24px 0;display:grid;gap:18px}
+.etu-cambridge-services li{display:flex;gap:14px;align-items:start}
+.etu-cambridge-services li>span{flex-shrink:0;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#dcedff;color:var(--b);font-size:12px;font-weight:800}
+.etu-cambridge-services h3{font-size:16px;margin:0 0 5px}
+.etu-cambridge-services p{font-size:13px;color:var(--m);margin:0;line-height:1.7}
+#etu-page .etu-cambridge-cta{background:var(--b);color:#fff;border:1px solid var(--b);font-size:13px;text-align:center}
+#etu-page .etu-cambridge-cta:hover{background:var(--bd);text-decoration:none}
+.etu-certificate-photo{min-width:0;overflow:hidden;margin:0;border-radius:16px;border:1px solid var(--line);background:#fff}
+.etu-certificate-open{position:relative;display:block;background:#fff}
+#etu-page .etu-certificate-open img{width:100%;height:auto;aspect-ratio:auto;object-fit:contain;object-position:center}
+.etu-certificate-zoom{position:absolute;bottom:12px;right:12px;border-radius:999px;background:#fff;color:var(--b);font-size:11px;font-weight:700;padding:7px 12px;box-shadow:0 2px 12px #075bb91a}
+.etu-certificate-photo figcaption{font-size:12px;color:var(--m);padding:12px 16px;line-height:1.5}
+.etu-certificate-featured{box-shadow:0 16px 40px #075bb910}
+.etu-cambridge-gallery-heading{margin:40px 0 20px}
+.etu-cambridge-gallery-heading h3{font-size:24px;letter-spacing:-.7px;margin:0 0 10px}
+.etu-cambridge-gallery-heading p{font-size:14px;color:var(--m);margin:0}
+.etu-certificate-gallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+@media(max-width:1000px){.etu-cambridge-layout{gap:28px}.etu-certificate-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.etu-cambridge-layout{grid-template-columns:1fr;gap:26px}.etu-cambridge-copy h2{font-size:34px}.etu-cambridge-copy .etu-cambridge-lead{font-size:19px}.etu-cambridge-cta{width:100%}.etu-certificate-gallery{gap:12px}.etu-certificate-photo figcaption{font-size:11px;padding:10px 12px}.etu-certificate-zoom{bottom:8px;right:8px;font-size:10px;padding:6px 10px}}
+@media(max-width:400px){.etu-certificate-gallery{grid-template-columns:1fr}}
+
+/* Official Cambridge product branding and CEFR reference levels. */
+.etu-cambridge-brand{display:inline-flex;align-items:center;min-height:84px;max-width:100%;margin:0 0 22px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px}
+#etu-page .etu-cambridge-brand img{width:290px;max-width:100%;height:auto;object-fit:contain}
+.etu-brand-fallback{font-weight:700;font-size:18px;color:var(--b)}
+.etu-cefr{background:#fff;border:1px solid var(--line);border-radius:22px;padding:32px;margin-top:40px;scroll-margin-top:130px}
+.etu-cefr-heading{max-width:760px}
+.etu-cefr-heading h3{font-size:30px;letter-spacing:-1px;margin:10px 0 16px}
+.etu-cefr-heading p{font-size:14px;color:var(--m);margin-bottom:22px}
+.etu-cefr-foundation{display:flex;align-items:center;gap:16px;padding:16px 20px;background:#f0f7ff;border:1px solid var(--line);border-radius:12px;margin-bottom:18px}
+.etu-cefr-foundation>span{flex-shrink:0;font-size:17px;font-weight:800;color:var(--b)}
+.etu-cefr-foundation p{font-size:13px;margin:0;color:var(--m)}
+.etu-cefr-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.etu-cefr-group{border:1px solid var(--line);border-radius:14px;padding:20px;min-width:0}
+.etu-cefr-group h4{color:var(--b);font-size:12px;letter-spacing:.7px;text-transform:uppercase;margin:0 0 16px}
+.etu-cefr-level{display:flex;align-items:flex-start;gap:12px;padding:16px 0;border-top:1px solid var(--line)}
+.etu-cefr-level:last-child{padding-bottom:0}
+.etu-cefr-level>span{flex-shrink:0;border-radius:10px;background:var(--b);color:#fff;font-weight:800;font-size:22px;width:48px;height:48px;display:grid;place-items:center}
+.etu-cefr-level strong{font-size:13px;line-height:1.5;display:block}
+.etu-cefr-level small{display:block;font-size:10px;line-height:1.6;color:var(--m);margin-top:4px}
+.etu-cefr-note{font-size:12px;color:var(--m);margin:20px 0 12px}
+@media(max-width:900px){.etu-cefr-grid{grid-template-columns:1fr}.etu-cefr-group{display:grid;grid-template-columns:1fr 1fr;gap:0 20px}.etu-cefr-group h4{grid-column:1/-1}.etu-cefr-level:last-child{padding-bottom:16px}}
+@media(max-width:650px){.etu-cefr{padding:22px;scroll-margin-top:100px}.etu-cefr-heading h3{font-size:27px}.etu-cefr-foundation{padding:14px;align-items:start;gap:12px}.etu-cefr-group{display:block;padding:18px}.etu-cefr-level:last-child{padding-bottom:0}.etu-cambridge-brand{padding:12px 16px;min-height:72px}.etu-cefr-heading p{font-size:13px}}
+
+/* Dedicated Small Talker program detail page. */
+.etu-program-posterlink{display:block}
+#etu-page .etu-program-more{display:block;padding:12px;border:1px solid #a6c8ed;border-radius:999px;text-align:center;font-size:13px;font-weight:700;color:var(--b);background:#f0f7ff}
+.etu-program-back{margin-left:auto;font-size:13px;font-weight:700;color:var(--b)}
+.etu-breadcrumb{display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--m);padding-bottom:28px}
+.etu-small-hero{background:linear-gradient(110deg,#fff,#f0f7ff);padding:30px 0 62px}
+.etu-small-intro{display:grid;grid-template-columns:1.2fr .85fr;gap:64px;align-items:center}
+.etu-small-intro h1{font-size:clamp(40px,5vw,66px);letter-spacing:-2.8px;margin:20px 0 24px}
+.etu-small-intro h1 span{color:var(--b)}
+.etu-small-intro>div>p{font-size:17px;color:var(--m);max-width:520px;margin:0 0 28px}
+.etu-small-tags{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.etu-small-tags span{font-size:11px;color:var(--b);border:1px solid var(--line);border-radius:999px;padding:7px 12px;background:#fff}
+.etu-small-poster{margin:0;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 14px 40px #075bb910;max-width:430px}
+#etu-page .etu-small-poster img{width:100%;height:auto;object-fit:contain}
+.etu-small-poster figcaption{padding:12px 18px;font-size:11px;color:var(--m);border-top:1px solid var(--line)}
+.etu-small-skills{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
+.etu-small-skills article{padding:26px;border:1px solid var(--line);border-radius:16px;background:#fff}
+.etu-small-number{display:grid;place-items:center;width:40px;height:40px;background:#e8f3ff;color:var(--b);font-size:12px;font-weight:800;border-radius:50%;margin-bottom:22px}
+.etu-small-skills h3{font-size:18px;margin:0 0 14px}
+.etu-small-skills h3 small{font-size:12px;font-weight:400}
+.etu-small-skills p{font-size:14px;color:var(--m);margin:0}
+.etu-small-outcomes{background:#f0f7ff}
+.etu-small-outcomes-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.etu-small-outcomes h2,.etu-small-next h2{font-size:38px;letter-spacing:-1.2px;margin:12px 0 20px}
+.etu-small-outcomes p,.etu-small-next p{font-size:15px;color:var(--m)}
+.etu-small-outcomes ul{padding:26px 26px 26px 46px;border:1px solid var(--line);border-radius:18px;background:#fff;margin:0}
+.etu-small-outcomes li{padding:10px 0 10px 6px;font-size:14px;color:var(--n)}
+.etu-small-next{display:grid;grid-template-columns:1.3fr 1fr;gap:60px;align-items:center}
+.etu-small-next address{font-size:14px;font-style:normal;margin:22px 0}
+.etu-small-next aside{padding:30px;background:#f0f7ff;border-radius:18px;border:1px solid var(--line)}
+.etu-small-next aside h3{font-size:21px;margin:0 0 14px}
+.etu-small-next aside .etu-text-link{display:block;font-size:13px;margin-top:10px}
+@media(max-width:1000px){.etu-small-skills{grid-template-columns:repeat(2,minmax(0,1fr))}.etu-small-intro{gap:32px}.etu-small-next,.etu-small-outcomes-grid{gap:32px}}
+@media(max-width:650px){.etu-program-header .etu-navin{flex-wrap:nowrap}.etu-program-header .etu-logo{width:110px}.etu-program-back{font-size:12px}.etu-small-hero{padding:24px 0 40px}.etu-small-intro,.etu-small-outcomes-grid,.etu-small-next{grid-template-columns:1fr;gap:28px}.etu-small-intro h1{font-size:44px;letter-spacing:-2px}.etu-small-intro>div>p{font-size:15px}.etu-small-poster{width:100%;max-width:420px;margin:auto}.etu-small-skills{grid-template-columns:1fr;gap:16px}.etu-small-skills article{padding:24px}.etu-small-number{margin-bottom:16px}.etu-small-outcomes h2,.etu-small-next h2{font-size:32px}.etu-small-next aside{padding:24px}.etu-small-intro .etu-actions{flex-direction:column}.etu-breadcrumb{font-size:11px;padding-bottom:22px}}
