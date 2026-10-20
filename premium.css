@@ -230,7 +230,7 @@ body{margin:0;background:#fff}
 @media(max-width:900px){.etu-cefr-grid{grid-template-columns:1fr}.etu-cefr-group{display:grid;grid-template-columns:1fr 1fr;gap:0 20px}.etu-cefr-group h4{grid-column:1/-1}.etu-cefr-level:last-child{padding-bottom:16px}}
 @media(max-width:650px){.etu-cefr{padding:22px;scroll-margin-top:100px}.etu-cefr-heading h3{font-size:27px}.etu-cefr-foundation{padding:14px;align-items:start;gap:12px}.etu-cefr-group{display:block;padding:18px}.etu-cefr-level:last-child{padding-bottom:0}.etu-cambridge-brand{padding:12px 16px;min-height:72px}.etu-cefr-heading p{font-size:13px}}
 
-/* Dedicated Small Talker program detail page. */
+/* Shared program detail pages. */
 .etu-program-posterlink{display:block}
 #etu-page .etu-program-more{display:block;padding:12px;border:1px solid #a6c8ed;border-radius:999px;text-align:center;font-size:13px;font-weight:700;color:var(--b);background:#f0f7ff}
 .etu-program-back{margin-left:auto;font-size:13px;font-weight:700;color:var(--b)}
@@ -264,3 +264,32 @@ body{margin:0;background:#fff}
 .etu-small-next aside .etu-text-link{display:block;font-size:13px;margin-top:10px}
 @media(max-width:1000px){.etu-small-skills{grid-template-columns:repeat(2,minmax(0,1fr))}.etu-small-intro{gap:32px}.etu-small-next,.etu-small-outcomes-grid{gap:32px}}
 @media(max-width:650px){.etu-program-header .etu-navin{flex-wrap:nowrap}.etu-program-header .etu-logo{width:110px}.etu-program-back{font-size:12px}.etu-small-hero{padding:24px 0 40px}.etu-small-intro,.etu-small-outcomes-grid,.etu-small-next{grid-template-columns:1fr;gap:28px}.etu-small-intro h1{font-size:44px;letter-spacing:-2px}.etu-small-intro>div>p{font-size:15px}.etu-small-poster{width:100%;max-width:420px;margin:auto}.etu-small-skills{grid-template-columns:1fr;gap:16px}.etu-small-skills article{padding:24px}.etu-small-number{margin-bottom:16px}.etu-small-outcomes h2,.etu-small-next h2{font-size:32px}.etu-small-next aside{padding:24px}.etu-small-intro .etu-actions{flex-direction:column}.etu-breadcrumb{font-size:11px;padding-bottom:22px}}
+
+@media(min-width:1001px){.etu-program-three{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* Keep program navigation visible and text within narrow grid columns. */
+.etu-program-switcher{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 32px}
+.etu-program-switcher a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 16px;border:1px solid var(--line);border-radius:999px;font-size:12px;font-weight:700;background:#fff}
+#etu-page .etu-program-switcher a[aria-current="page"]{background:var(--b);border-color:var(--b);color:#fff}
+.etu-small-intro>div,.etu-small-skills article,.etu-small-outcomes-grid>div,.etu-small-next>div,.etu-small-next aside{min-width:0;overflow-wrap:anywhere}
+@media(max-width:650px){.etu-program-switcher{gap:8px;margin-bottom:24px}.etu-program-switcher a{flex:1 1 calc(50% - 8px);padding:10px 12px}.etu-program-switcher a:last-child{flex-basis:100%}.etu-small-intro h1{font-size:clamp(34px,10vw,44px)}.etu-small-tags span{max-width:100%;overflow-wrap:anywhere}.etu-small-next .etu-actions{flex-direction:column}.etu-small-next .etu-btn{width:100%}}
+
+/* Parent information pages and shared navigation. */
+.etu-learn-menu{position:relative;font-size:13px;font-weight:700}
+.etu-learn-menu summary{cursor:pointer;padding:10px 0}
+.etu-learn-menu summary:focus-visible{outline:3px solid #f2aa22;outline-offset:4px}
+.etu-learn-links{position:absolute;top:100%;left:0;min-width:230px;padding:10px;border:1px solid var(--line);border-radius:14px;background:#fff;box-shadow:0 12px 30px #14385d1a;display:grid;gap:2px}
+.etu-learn-links a{padding:10px 12px}
+.etu-info-nav{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:36px}
+.etu-info-nav a{display:flex;align-items:center;min-height:44px;padding:10px 16px;border:1px solid var(--line);border-radius:999px;font-size:12px;font-weight:700;background:#fff}
+#etu-page .etu-info-nav a[aria-current="page"]{color:#fff;background:var(--b);border-color:var(--b)}
+.etu-info-heading{max-width:800px}.etu-info-heading h1{font-size:clamp(34px,5vw,62px);letter-spacing:-1.7px;margin:16px 0 22px;overflow-wrap:anywhere}.etu-info-heading p{max-width:680px;color:var(--m);font-size:18px}
+.etu-info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:22px}
+.etu-info-grid article,.etu-info-note,.etu-evaluation{padding:28px;border:1px solid var(--line);border-radius:18px;background:#fff;min-width:0;overflow-wrap:anywhere}
+.etu-info-grid h3,.etu-info-note h3{font-size:22px;margin:0 0 16px}.etu-info-grid p,.etu-info-note p{color:var(--m);font-size:15px}.etu-info-note{background:var(--pale);max-width:850px;margin:auto}.etu-info-note address{font-style:normal}.etu-info-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:12px}
+.etu-draft-label{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1px;padding:8px 12px;border-radius:8px;background:var(--pale);color:var(--b)}
+.etu-report-meta{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:26px 0}.etu-report-meta div{border-bottom:1px solid var(--line);padding-bottom:12px}.etu-report-meta dt{font-size:12px;color:var(--m)}.etu-report-meta dd{margin:4px 0 0;font-weight:700}
+.etu-table-scroll{overflow-x:auto;margin:28px 0}.etu-evaluation table{width:100%;border-collapse:collapse;min-width:620px;text-align:left;font-size:14px}.etu-evaluation caption{text-align:left;font-weight:700;padding:0 0 14px}.etu-evaluation th,.etu-evaluation td{padding:16px;border:1px solid var(--line)}.etu-evaluation thead{background:var(--pale)}.etu-evaluation .etu-small{color:var(--m);font-size:13px;margin-top:24px}
+@media(max-width:650px){.etu-learn-menu summary{padding:12px 6px;font-size:14px}.etu-learn-links{position:static;box-shadow:none;min-width:0;margin-bottom:8px}.etu-links .etu-learn-links a{padding:12px}.etu-info-nav{display:grid;grid-template-columns:1fr 1fr;gap:8px}.etu-info-nav a{border-radius:12px;padding:12px;font-size:11px}.etu-info-heading p{font-size:16px}.etu-info-grid article,.etu-info-note,.etu-evaluation{padding:22px}.etu-report-meta{grid-template-columns:1fr}.etu-info-actions{flex-direction:column}}
+
+.etu-about-accent{color:var(--b)}.etu-info-note .etu-actions{margin-top:24px}
