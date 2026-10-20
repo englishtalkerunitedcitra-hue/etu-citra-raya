@@ -293,3 +293,6 @@ body{margin:0;background:#fff}
 @media(max-width:650px){.etu-learn-menu summary{padding:12px 6px;font-size:14px}.etu-learn-links{position:static;box-shadow:none;min-width:0;margin-bottom:8px}.etu-links .etu-learn-links a{padding:12px}.etu-info-nav{display:grid;grid-template-columns:1fr 1fr;gap:8px}.etu-info-nav a{border-radius:12px;padding:12px;font-size:11px}.etu-info-heading p{font-size:16px}.etu-info-grid article,.etu-info-note,.etu-evaluation{padding:22px}.etu-report-meta{grid-template-columns:1fr}.etu-info-actions{flex-direction:column}}
 
 .etu-about-accent{color:var(--b)}.etu-info-note .etu-actions{margin-top:24px}
+
+/* Preserve the full classroom collage without a forced crop. */
+.etu-classroom-open img{aspect-ratio:auto}
