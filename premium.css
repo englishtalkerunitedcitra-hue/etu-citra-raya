@@ -1,6 +1,6 @@
 :root{color-scheme:light;scroll-behavior:smooth;scroll-padding-top:114px}
 body{margin:0;background:#fff}
-#etu-page{--b:#075bb9;--bd:#06468e;--n:#14385d;--m:#53677e;--line:#dce7f2;--pale:#f0f7ff;--g:#075bb9;font-family:Arial,Helvetica,sans-serif;color:var(--n);font-size:16px;line-height:1.65;overflow-x:clip}
+#etu-page{--b:#075bb9;--bd:#06468e;--n:#14385d;--m:#53677e;--line:#dce7f2;--pale:#f0f7ff;--g:#075bb9;font-family:"Poppins",Arial,Helvetica,sans-serif;color:var(--n);font-size:16px;line-height:1.65;overflow-x:clip}
 #etu-page *,#etu-page *::before,#etu-page *::after{box-sizing:border-box}
 #etu-page [hidden]{display:none!important}
 #etu-page a{color:inherit;text-decoration:none}
@@ -298,3 +298,12 @@ body{margin:0;background:#fff}
 .etu-classroom-open img{aspect-ratio:auto}
 
 .etu-float .etu-whatsapp-icon{display:block;width:30px;height:30px;flex-shrink:0}
+
+/* ETU typography: Jakarta headlines, Poppins supporting text. */
+#etu-page h1,#etu-page h2,#etu-page h3,#etu-page h4,#etu-page h5,#etu-page h6{font-family:"Plus Jakarta Sans","Poppins",Arial,sans-serif;font-weight:800;text-wrap:balance;overflow-wrap:anywhere}
+#etu-page button,#etu-page input,#etu-page select,#etu-page textarea{font-family:inherit}
+.etu-heroin>div{min-width:0}
+.etu-h1{font-size:clamp(42px,4.8vw,66px);letter-spacing:-2.8px}
+.etu-links{gap:16px}.etu-links a,.etu-learn-menu{font-size:12px}
+@media(max-width:800px){.etu-h1{font-size:42px;letter-spacing:-1.8px}}
+@media(max-width:650px){.etu-h1{font-size:clamp(36px,9.8vw,54px);letter-spacing:-1.8px}.etu-links a,.etu-learn-menu summary{font-size:14px}.etu-small-intro h1{font-size:clamp(32px,9.3vw,42px)}.etu-info-heading h1{font-size:clamp(32px,9.3vw,44px)}}
