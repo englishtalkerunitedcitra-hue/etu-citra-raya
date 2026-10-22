@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://englishtalkerunitedcitra-hue.github.io/etu-citra-raya/sitemap.xml
