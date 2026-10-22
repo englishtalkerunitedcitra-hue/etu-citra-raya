@@ -49,6 +49,19 @@
     ].filter(([, text]) => text).map(([label, text]) => `${label}: ${text}`).join('\n');
     const message = `Halo ETU Citra Raya.\n\nSaya ingin mengajukan Free Trial Class.\n\n${details}\n\nSumber: Website ETU Citra Raya — ${programs[selected]}\n\nMohon informasi jadwal trial yang tersedia. Terima kasih.`;
     status.textContent = 'WhatsApp akan dibuka. Silakan periksa pesan lalu tekan Kirim untuk menghubungi ETU.';
-    window.location.assign(`https://wa.me/6282210884318?text=${encodeURIComponent(message)}`);
+    const destination = `https://wa.me/6282210884318?text=${encodeURIComponent(message)}`;
+    // Only send non-identifying conversion metadata. Never include names, school, age, or phone in GA4.
+    let navigated = false;
+    const go = () => { if (!navigated) { navigated = true; window.location.assign(destination); } };
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'trial_form_submit', {
+        program: selected,
+        event_callback: go,
+        event_timeout: 1100
+      });
+      window.setTimeout(go, 1200);
+    } else {
+      go();
+    }
   });
 })();
