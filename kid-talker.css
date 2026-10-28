@@ -1,0 +1,23 @@
+/* Kid Talker page additions; shared program and navigation styles remain reusable. */
+.kid-page section[id],.kid-page main[id]{scroll-margin-top:100px}
+.kid-page .eyebrow{font-size:11px;letter-spacing:.6px}
+.kid-page .hero h1{font-size:clamp(36px,4.2vw,58px)}
+.kid-page .kid-photo{margin:0;min-width:0}
+.kid-page .kid-photo img{display:block;width:100%;height:auto;border-radius:22px}
+.kid-page .kid-photo figcaption{font-size:12px;color:#526780;margin-top:12px}
+.kid-page .kid-hero-photo{transform:rotate(1deg)}
+.kid-page .kid-levels figure{margin:0;min-width:0}
+.kid-page .kid-levels img{display:block;width:100%;height:auto}
+.kid-page .kid-levels p{font-size:14px;color:#526780}
+.kid-page .kid-modules{margin-top:32px}
+.kid-page .kid-modules ul{columns:2;column-gap:24px}
+.kid-page .kid-modules li{break-inside:avoid}
+.kid-page .card a:not(.btn){color:#075bb9;text-decoration:underline;text-underline-offset:3px}
+.kid-page .kid-facts{margin:20px 0}
+.kid-page .kid-facts div{padding:12px 0;border-bottom:1px solid #e2ebf5}
+.kid-page .kid-facts dt{font-size:13px;color:#526780}
+.kid-page .kid-facts dd{margin:2px 0 0;font-size:21px;font-weight:700;color:#075bb9}
+.kid-page address{font-style:normal;color:#526780}
+.kid-skip{position:fixed;top:-100px;left:12px;z-index:100;padding:12px 18px;background:white;color:#075bb9;border:2px solid currentColor;border-radius:8px}
+.kid-skip:focus{top:12px}
+@media(max-width:800px){.kid-page .kid-hero-photo{transform:none}.kid-page .kid-modules ul{columns:1}}

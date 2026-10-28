@@ -6,7 +6,7 @@ Requires Python Playwright and Chromium (CHROMIUM_PATH can override its path).
 import os
 import sys
 from urllib.parse import parse_qs, urlsplit
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import sync_playwright, expect
 
 BASE = (sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8000').rstrip('/')
 KEYS = ['small', 'kid', 'junior', 'senior', 'adult']
@@ -77,7 +77,7 @@ with sync_playwright() as p:
     for key, age in zip(KEYS, [5, 9, 14, 17, 30]):
         page.goto(BASE + f'/programs/{key}-talker.html', wait_until='domcontentloaded')
         page.locator('.hero .btn').first.click()
-        assert page.locator('#program').input_value() == key + '-talker'
+        expect(page.locator('#program')).to_have_value(key + '-talker')
         page.locator('#trial-form button').click()
         assert len(captured) == KEYS.index(key), 'Invalid form navigated'
         for selector, value in [('parent', 'Dummy & Parent'), ('student', 'Dummy + Student'), ('age', str(age)), ('school', 'Dummy School'), ('phone', '081234567890')]:
