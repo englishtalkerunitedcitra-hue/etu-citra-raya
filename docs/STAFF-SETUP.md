@@ -8,9 +8,9 @@ The existing site is static HTML/CSS/JavaScript on GitHub Pages, publishing `mai
 
 GitHub Pages serves only the UI. Supabase Auth, PostgreSQL, RLS, transactional RPCs and one Edge Function provide the shared backend. Staff see/write their assigned leads. Active admins can see all leads, reassign PICs, invite staff, change roles and disable access. A disabled account's existing JWT loses DB access immediately because policies check the live profile, not a role in the token or browser.
 
-## Required application configuration (not yet deployed)
+## Application configuration and remaining activation
 
-The existing ETU project **ETU smart CRM dev** (`tnbhblojvqshmsrkfvap`) in organization **ETU Smart Systems** has been selected and restored on the Free plan. Management API reported `ACTIVE_HEALTHY`; a read-only query found no tables in the public schema. The application migrations and hosted Auth configuration have not been applied. Do not create a duplicate project.
+The existing ETU project **ETU smart CRM dev** (`tnbhblojvqshmsrkfvap`) in organization **ETU Smart Systems** has been selected and restored on the Free plan. Management API reported `ACTIVE_HEALTHY`; a read-only query found no tables in the public schema. Both application migrations have now been applied transactionally and recorded in the migration ledger. All eight application tables have RLS enabled. Signup and anonymous/phone login are disabled; passwords require 12 characters, email confirmation and refresh-token rotation are enabled. Server functions `staff-admin` and `sheets-sync` are deployed with JWT verification. Do not create a duplicate project.
 
 Project URL: `https://tnbhblojvqshmsrkfvap.supabase.co`. Dashboard: https://supabase.com/dashboard/project/tnbhblojvqshmsrkfvap. The project uses its existing Tokyo region (`ap-northeast-1`). No changes were made to the Social AI project.
 
@@ -30,7 +30,7 @@ Do not send secret values in chat, commit them, put them into HTML, or place the
 | Disable new user signup, email signup, anonymous login | Supabase Auth settings | Invitation-only accounts. Local config has both signup switches disabled; remote Dashboard settings must also be applied. |
 | Minimum password length 12; refresh rotation enabled | Supabase Auth settings | Match tested local policy |
 
-The current checked-in public config is empty and fails closed with a setup notice. No fake saving or localStorage dashboard is substituted. The ETU development project is now available, but application configuration, migrations and staff bootstrap remain pending. Enable MFA for privileged accounts if ETU policy requires it; this initial UI does not provide MFA enrollment.
+The checked-in frontend config on the feature branch now points to the ETU development project using its public anon key only. No service-role key is stored in frontend or repository files. Backend migrations, Auth policy, server functions and origin/redirect settings are deployed. Custom SMTP, first-admin bootstrap and frontend publication remain pending. The first admin email and Gmail sender were selected privately in chat. See GMAIL-SMTP-SETUP.md; never send an App Password in chat. Enable MFA for privileged accounts if ETU policy requires it; this initial UI does not provide MFA enrollment.
 
 ### Deploy backend after configuration and code review
 

@@ -19,7 +19,7 @@ Master rows contain Lead ID, DB version, name/contact, program, PIC, separate se
 
 ## Production prerequisites — still required
 
-The existing ETU development project `tnbhblojvqshmsrkfvap` has been selected and restored; application migrations/Auth configuration are still pending. A Sheet URL alone is not write authorization. Complete `STAFF-SETUP.md` first, then:
+The existing ETU development project `tnbhblojvqshmsrkfvap` has been restored and its application migrations/Auth configuration and server functions are now deployed. Staff SMTP/admin activation and frontend publication are still pending. A Sheet URL alone is not write authorization. Complete `STAFF-SETUP.md` first, then:
 
 1. In a Google Cloud project owned by ETU, enable **Google Sheets API** and create a dedicated service account. A Drive-wide scope is not required.
 2. In this workbook's **Share / Bagikan** dialog, add the service account's `client_email` as **Editor**. Do not make the workbook public. Keep access to the full workbook restricted to the admin/authorized viewers: Google Sheet sharing does not reproduce the application's per-PIC row-level permissions.
@@ -34,7 +34,7 @@ The existing ETU development project `tnbhblojvqshmsrkfvap` has been selected an
 
 7. Log in as an active Admin and click **Sinkronkan Sheet**. Staff/anonymous users cannot invoke a full-workbook sync. Verify the two new tabs, Lead ID/version, one activity row, and dashboard confirmation. A quota/access/header error leaves data pending and does not report it as synchronized.
 
-No Google key or hosted Supabase credential was available during implementation. These deployment/permission steps have **not** been run against the supplied workbook. If ETU already has a suitable service account, use its email for sharing rather than creating a duplicate account. Only its email/project URL may be shared in chat; keep keys in secure settings.
+The ETU development backend and functions are now deployed using the securely configured Management API credential. The Google service-account key is still not configured. Google permission/activation steps have **not** been run against the supplied workbook. If ETU already has a suitable service account, use its email for sharing rather than creating a duplicate account. Only its email/project URL may be shared in chat; keep keys in secure settings.
 
 ## Schedule automatic sync
 
