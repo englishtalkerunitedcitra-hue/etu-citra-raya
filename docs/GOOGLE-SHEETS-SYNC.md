@@ -19,7 +19,7 @@ Master rows contain Lead ID, DB version, name/contact, program, PIC, separate se
 
 ## Production prerequisites — still required
 
-The Supabase project from the staff PR has not been supplied/provisioned. A Sheet URL alone is not write authorization. Complete `STAFF-SETUP.md` first, then:
+The existing ETU development project `tnbhblojvqshmsrkfvap` has been selected and restored; application migrations/Auth configuration are still pending. A Sheet URL alone is not write authorization. Complete `STAFF-SETUP.md` first, then:
 
 1. In a Google Cloud project owned by ETU, enable **Google Sheets API** and create a dedicated service account. A Drive-wide scope is not required.
 2. In this workbook's **Share / Bagikan** dialog, add the service account's `client_email` as **Editor**. Do not make the workbook public. Keep access to the full workbook restricted to the admin/authorized viewers: Google Sheet sharing does not reproduce the application's per-PIC row-level permissions.
