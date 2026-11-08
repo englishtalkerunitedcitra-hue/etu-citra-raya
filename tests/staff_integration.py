@@ -176,6 +176,9 @@ try:
         Path('/tmp/etu-staff-preview').mkdir(exist_ok=True)
         sp.screenshot(path='/tmp/etu-staff-preview/mobile.png',full_page=True)
         ap.screenshot(path='/tmp/etu-staff-preview/admin.png',full_page=True)
+        ap.locator('#sync-sheet').click()
+        expect(ap.locator('#notice')).to_contain_text('Google service account belum dikonfigurasi',timeout=10000)
+        assert 'terkonfirmasi' not in ap.locator('#sheet-status').inner_text()
         # Independent third browser: customer remains entirely unauthenticated.
         public=browser.new_context();cp=public.new_page();captured=[]
         def intercept(route):captured.append(route.request.url);route.fulfill(status=200,content_type='text/html',body='<title>Intercepted</title>')

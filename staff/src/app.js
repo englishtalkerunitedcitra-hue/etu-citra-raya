@@ -84,6 +84,8 @@ function clearPrivate() {
   $("#password-panel").hidden = true;
   $("#login-panel").hidden = false;
   $("#admin-section").hidden = true;
+  $("#sync-sheet").hidden = true;
+  $("#sheet-status").textContent = "Google Sheet: menunggu konfirmasi";
   $("#lead-list").replaceChildren();
   $("#top3").replaceChildren();
   $("#metrics").replaceChildren();
@@ -132,7 +134,7 @@ async function load() {
       await client.auth.signOut();
       return;
     }
-    const [rows, people, pinned] = await Promise.all([
+    const [rows, people, pinned, sheet] = await Promise.all([
       allRows("sales_leads"),
       client.rpc("staff_directory"),
       client
@@ -140,6 +142,7 @@ async function load() {
         .select("*")
         .eq("day", jakartaDay())
         .order("slot"),
+      client.rpc("sheet_sync_status"),
     ]);
     if (people.error) throw people.error;
     if (pinned.error) throw pinned.error;
@@ -170,6 +173,19 @@ async function load() {
     $("#sync-status").textContent =
       `Database bersama · diperbarui ${dateTime(new Date().toISOString())}`;
     $("#admin-section").hidden = profile.role !== "admin";
+    $("#sync-sheet").hidden = profile.role !== "admin";
+    const state = sheet.data;
+    $("#sheet-status").textContent =
+      sheet.error || !state
+        ? "Google Sheet: status belum tersedia"
+        : !state.enabled
+          ? `Google Sheet: menunggu aktivasi · ${state.pending} antrean`
+          : state.pending
+            ? `Google Sheet: ${state.pending} antrean${state.failed ? ` · ${state.failed} perlu dicoba ulang` : ""}`
+            : !state.total
+              ? "Google Sheet: belum ada data dikirim"
+              : `Google Sheet: ${state.confirmed} baris terkonfirmasi · ${dateTime(state.last_confirmed_at)}`;
+
     render();
     if (profile.role === "admin") await loadStaff();
   } catch (error) {
@@ -425,7 +441,7 @@ leadForm.addEventListener("submit", async (event) => {
     $("#lead-dialog").close();
     pending = null;
     notify(
-      `Tersimpan di database bersama. Lead ID: ${saved.id}. Google Sheet belum tersinkron.`,
+      `Tersimpan di database bersama. Lead ID: ${saved.id}. Salinan Google Sheet masuk antrean; menunggu konfirmasi Google.`,
     );
     await load();
   } catch (error) {
@@ -709,4 +725,36 @@ setInterval(() => {
 }, 30000);
 document.addEventListener("visibilitychange", () => {
   if (!document.hidden && !$("#lead-dialog").open) load();
+});
+
+$("#sync-sheet").addEventListener("click", async () => {
+  const button = $("#sync-sheet");
+  if (button.disabled) return;
+  button.disabled = true;
+  try {
+    const { data, error } = await client.functions.invoke("sheets-sync", {
+      body: {},
+    });
+    if (error) {
+      let message = "Sinkronisasi belum terkonfirmasi.";
+      try {
+        message = (await error.context.json()).error || message;
+      } catch {}
+      throw new Error(message);
+    }
+    notify(
+      data.disabled
+        ? "Sinkronisasi belum diaktifkan di server."
+        : data.busy
+          ? "Worker lain sedang memproses antrean. Muat ulang status sebentar lagi."
+          : data.confirmed
+            ? `${data.confirmed} baris dikonfirmasi Google. Perubahan lain yang masih mengantre akan dikirim pada proses berikutnya.`
+            : "Tidak ada antrean yang siap dikirim. Periksa status konfirmasi dan waktu percobaan ulang.",
+    );
+    await load();
+  } catch (error) {
+    notify(error.message, true);
+  } finally {
+    button.disabled = false;
+  }
 });

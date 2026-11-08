@@ -118,7 +118,8 @@
             <button id="refresh" type="button">↻ Muat ulang</button
             ><button id="add-lead" class="primary" type="button">
               ＋ Lead baru</button
-            ><button id="logout" class="text-button" type="button">
+            ><button id="sync-sheet" type="button" hidden>Sinkronkan Sheet</button>
+            <button id="logout" class="text-button" type="button">
               Keluar
             </button>
           </div>
@@ -126,7 +127,7 @@
         <div class="sync-bar">
           <span class="connection-dot"></span
           ><span id="sync-status">Memuat data bersama…</span
-          ><span class="sheet-state">Google Sheet: belum tersinkron</span>
+          ><span id="sheet-status" class="sheet-state" role="status">Google Sheet: menunggu konfirmasi</span>
         </div>
         <div class="metrics" id="metrics"></div>
         <section class="focus-section" aria-labelledby="focus-title">
@@ -294,7 +295,7 @@
         </div>
         <p class="fine">
           Waktu input mengikuti perangkat; waktu riwayat ditampilkan dalam WIB.
-          Simpan memperbarui database bersama, bukan Google Sheet.
+          Simpan memperbarui database bersama. Salinan Google Sheet menunggu konfirmasi layanan.
         </p>
         <div class="editor-actions">
           <button id="save-lead" class="primary" type="submit">

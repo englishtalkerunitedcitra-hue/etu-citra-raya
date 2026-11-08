@@ -12,7 +12,8 @@
     "backend:stop": "supabase stop",
     "backend:reset": "supabase db reset",
     "test:integration": "python3 tests/staff_integration.py",
-    "backend:start:lite": "python3 tests/local_backend.py"
+    "backend:start:lite": "python3 tests/local_backend.py",
+    "test:sheets": "npm exec --yes --package=deno@2.5.6 -- deno test tests/sheets-sync.test.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.119.0"

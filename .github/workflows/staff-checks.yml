@@ -5,6 +5,7 @@ on:
       - "staff/**"
       - "supabase/**"
       - "tests/staff*"
+      - "tests/sheets*"
       - "package*.json"
       - "scripts/configure-staff.mjs"
       - ".github/workflows/staff-checks.yml"
@@ -21,6 +22,7 @@ jobs:
           cache: npm
       - run: npm ci --ignore-scripts
       - run: npm test
+      - run: npm run test:sheets
       - run: npm run build:staff
       - run: git diff --exit-code -- staff/app.bundle.js
       - run: npm audit --audit-level=high

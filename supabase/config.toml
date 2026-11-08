@@ -358,3 +358,6 @@ s3_secret_key = "env(S3_SECRET_KEY)"
 
 [functions.staff-admin]
 verify_jwt = true
+
+[functions.sheets-sync]
+verify_jwt = true

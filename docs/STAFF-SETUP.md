@@ -70,7 +70,7 @@ npm run backend:start:lite
 ETU_LOCAL_BACKEND_STATUS=/tmp/etu-staff-local/status.json npm run test:integration
 ```
 
-The lightweight harness uses Deno 2.5.6 from npm to run the exact Edge Function source (not a mock). It supplies the standard `auth.uid()` semantics consumed by PostgREST JWT claims. All test credentials are generated per run in private `/tmp/etu-staff-local` files; none are production credentials. A loopback-only gateway routes to real Auth/REST/function services. Ctrl-C stops only its own labeled containers. It does not use Supabase CLI state or production resources. Ports 54321, 55432, 55433, 55481, 55499, and 55425 must be available. Mail catcher UI is local port 55425. The test harness is not a deployable production server.
+The lightweight harness uses Deno 2.5.6 from npm to run the exact Edge Function source (not a mock). It supplies the standard `auth.uid()` semantics consumed by PostgREST JWT claims. All test credentials are generated per run in private `/tmp/etu-staff-local` files; none are production credentials. A loopback-only gateway routes to real Auth/REST/function services. Ctrl-C stops only its own labeled containers. It does not use Supabase CLI state or production resources. Ports 54321, 55432, 55433, 55481, 55482, 55499, and 55425 must be available. Mail catcher UI is local port 55425. The test harness is not a deployable production server.
 
 Docker is required. The full local stack uses Supabase Auth, PostgreSQL 17, PostgREST, gateway, mail catcher and Edge runtime. Optional storage, realtime, analytics and Studio are excluded. Download time/disk use can be substantial on first run. Keep package and image verification enabled. `config.toml` disables signup and includes local-only redirect URLs.
 
@@ -85,7 +85,7 @@ Run `npx supabase functions serve staff-admin --env-file supabase/.env.local` in
 
 ## Data mapping to ETU Selling Process Monitoring
 
-No actual Sheet or schema was available. This is a proposed mapping that can be adjusted once ETU supplies its real column names. The database is the **single source of truth**. UI explicitly says “Tersimpan di database bersama” and “Google Sheet: belum tersinkron”. No Google credentials or fake sync claims are included.
+The workbook URL is now available, but its original schema could not be inspected without Google network/editor access. This mapping is used for the two app-owned destination tabs. The database is the **single source of truth**. The UI reads pending/confirmed delivery counts from the server and never equates a DB save with Google confirmation.
 
 | Master Prospek column | `sales_leads` field |
 | --- | --- |
@@ -104,11 +104,11 @@ No actual Sheet or schema was available. This is a proposed mapping that can be 
 
 Saves are one DB transaction: validate active membership/PIC/version → write master → append history → record idempotency request. Duplicate concurrent requests with the same user/request ID return the original result. Reusing that ID for different data is rejected. Stale edits are rejected rather than silently overwriting another device's update. A retry of the same request returns that request's original result; dashboard refresh reads the latest DB version. Top 3 is personal per day in WIB and persisted server-side; Top 15 is high priority first, then earliest follow-up, then deterministic creation/ID order, excluding Registered/Lost. Dorman remains a separate filter, not an invented response or sales stage. Summary follows current filters; “registrasi baru” counts the selected current WIB day.
 
-A future Sheet sync should be a **server-side** worker with Google service-account/OAuth credentials in secrets and acknowledged row/log IDs. Do not let spreadsheet edits bypass API authorization, overwrite newer DB versions, or mark a row synced before Google confirms it.
+The server-side Sheet worker uses a protected transactional outbox, stable row IDs, service-account credentials held only in Edge secrets, and explicit Google acknowledgements. See GOOGLE-SHEETS-SYNC.md before enabling it.
 
 ## Known limits
 
-- Production setup/invitation delivery cannot be verified until ETU supplies its project and SMTP configuration. No automatic capture from WhatsApp, marketing automation, or Sheet sync is included.
+- Production setup/invitation delivery cannot be verified until ETU supplies its project and SMTP configuration. No automatic capture from WhatsApp or marketing automation is included. Sheet delivery is implemented but remains disabled until the Google and backend configuration is completed.
 - Dashboard refreshes on demand, when tab becomes visible, and every 30 seconds while the editor is closed. A successful save is immediately shared; another device can click Muat ulang. No realtime subscription is required.
 - All lead rows visible to the logged-in user are paged from the DB for dashboard sorting/filtering; this is suitable for an initial team workflow. For very large datasets, move filtering/summary into server RPCs rather than raising client limits. History UI shows the latest 100 events; complete history remains in DB.
 - Public source files are unchanged. The staff path is intentionally separate and not listed in the public sitemap. Knowing `/staff/` does not grant API/database access.
@@ -127,3 +127,7 @@ On the feature branch, local end-to-end verification passed against PostgreSQL 1
 - Frontend unit tests for Top 15, filters, daily summary and WIB day handling; HTML validation and production/dev dependency audit.
 
 The larger Supabase CLI database image could not fit comfortably with the cloud machine's Docker vfs layer copies; that attempt was stopped and its partial artifacts removed before the lightweight integration test. No production project, SMTP delivery to real staff, Google Sheet synchronization or live staff deployment has been validated.
+
+## Google Sheet integration
+
+A disabled-by-default, one-way delivery worker and transactional outbox are now implemented for the workbook supplied after the initial staff PR. The database remains the source of truth. See [GOOGLE-SHEETS-SYNC.md](GOOGLE-SHEETS-SYNC.md) for exact permissions, secrets, dedicated-tab protection, scheduling, tests, and activation. Live Google synchronization is still not activated or verified.

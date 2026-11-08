@@ -22,7 +22,7 @@ TMP=Path('/tmp/etu-staff-local');TMP.mkdir(mode=0o700,exist_ok=True)
 NAMES=['etu-staff-test-db','etu-staff-test-auth','etu-staff-test-rest','etu-staff-test-mail']
 LABEL='com.etu.staff-test=yes'
 NET='etu-staff-test'
-created=[];edge=None
+created=[];edge=None;sync_edge=None
 
 def run(args,**kwargs):return subprocess.run(args,check=True,**kwargs)
 def quiet(args,**kwargs):return run(args,stdout=subprocess.DEVNULL,**kwargs)
@@ -63,12 +63,14 @@ class Gateway(BaseHTTPRequestHandler):
             target='http://127.0.0.1:55499/'+self.path[len('/auth/v1/'):]
         elif self.path.startswith('/rest/v1/'):
             target='http://127.0.0.1:55433/'+self.path[len('/rest/v1/'):]
+        elif self.path.startswith('/functions/v1/sheets-sync'):
+            target='http://127.0.0.1:55482/'
         elif self.path.startswith('/functions/v1/staff-admin'):
             target='http://127.0.0.1:55481/'
         else:
             self.send_error(404);return
         body=self.rfile.read(int(self.headers.get('Content-Length',0))) if self.headers.get('Content-Length') else None
-        headers={k:v for k,v in self.headers.items() if k.lower() in ['authorization','content-type','apikey','prefer','range','range-unit','origin','x-client-info','x-supabase-api-version','accept-profile','content-profile']}
+        headers={k:v for k,v in self.headers.items() if k.lower() in ['authorization','content-type','apikey','prefer','range','range-unit','origin','x-client-info','x-supabase-api-version','accept-profile','content-profile','x-job-token']}
         try:response=opener.open(Request(target,data=body,headers=headers,method=self.command),timeout=30)
         except HTTPError as error:response=error
         except URLError:
@@ -121,20 +123,24 @@ grant usage on schema public to anon,authenticated,service_role;
 select coalesce(nullif(current_setting('request.jwt.claim.sub',true),''),nullif(current_setting('request.jwt.claims',true),'')::jsonb->>'sub')::uuid
 $$;"""
     run(['docker','exec','-i',NAMES[0],'psql','-U','postgres','-v','ON_ERROR_STOP=1'],input=uid_sql.encode(),stdout=subprocess.DEVNULL)
-    migration=(ROOT/'supabase/migrations/202611080001_staff_monitoring.sql').read_bytes()
+    migration=b'\n'.join(path.read_bytes() for path in sorted((ROOT/'supabase/migrations').glob('*.sql')))
     run(['docker','exec','-i',NAMES[0],'psql','-U','postgres','-v','ON_ERROR_STOP=1'],input=migration,stdout=subprocess.DEVNULL)
     container(NAMES[2],'postgrest/postgrest:v12.2.12',envfile('rest.env',{
         'PGRST_DB_URI':f'postgres://authenticator:{password}@{NAMES[0]}:5432/postgres','PGRST_DB_SCHEMAS':'public',
         'PGRST_DB_ANON_ROLE':'anon','PGRST_JWT_SECRET':secret,'PGRST_SERVER_PORT':'3000','PGRST_DB_MAX_ROWS':'1000',
     }),['55433:3000'])
     anon=token('anon',secret);service=token('service_role',secret)
-    info={'API_URL':'http://127.0.0.1:54321','ANON_KEY':anon,'SERVICE_ROLE_KEY':service}
+    job_secret=secrets.token_urlsafe(40)
+    info={'API_URL':'http://127.0.0.1:54321','ANON_KEY':anon,'SERVICE_ROLE_KEY':service,'SHEETS_JOB_TOKEN':job_secret}
     (TMP/'status.json').write_text(json.dumps(info));(TMP/'status.json').chmod(0o600)
     server=ThreadingHTTPServer(('127.0.0.1',54321),Gateway);threading.Thread(target=server.serve_forever,daemon=True).start()
     edge_env={**os.environ,'SUPABASE_URL':info['API_URL'],'SUPABASE_ANON_KEY':anon,'SUPABASE_SERVICE_ROLE_KEY':service,
       'STAFF_ALLOWED_ORIGINS':'http://127.0.0.1:8000','STAFF_REDIRECT_URL':'http://127.0.0.1:8000/staff/','STAFF_LOCAL_PORT':'55481'}
+    edge_env.pop('GOOGLE_SHEETS_SERVICE_ACCOUNT_JSON',None) # Tests never use real Google credentials.
     edge_log=open(TMP/'edge.log','w')
     edge=subprocess.Popen(['npm','--cache','/tmp/etu-npm-cache','exec','--yes','--package=deno@2.5.6','--','deno','run','--allow-env','--allow-net',str(ROOT/'supabase/functions/staff-admin/index.ts')],cwd=ROOT,env=edge_env,stdout=edge_log,stderr=edge_log,start_new_session=True)
+    sync_log=open(TMP/'sheets-edge.log','w')
+    sync_edge=subprocess.Popen(['npm','--cache','/tmp/etu-npm-cache','exec','--yes','--package=deno@2.5.6','--','deno','run','--allow-env','--allow-net',str(ROOT/'supabase/functions/sheets-sync/index.ts')],cwd=ROOT,env={**edge_env,'STAFF_LOCAL_SYNC_PORT':'55482','SHEETS_SYNC_JOB_TOKEN':job_secret},stdout=sync_log,stderr=sync_log,start_new_session=True)
     # An unauthenticated request to the real function should be rejected with 401.
     deadline=time.monotonic()+30
     while True:
@@ -153,4 +159,6 @@ except KeyboardInterrupt:
 finally:
     if edge:
         os.killpg(edge.pid,signal.SIGTERM)
+    if sync_edge:
+        os.killpg(sync_edge.pid,signal.SIGTERM)
     for name in reversed(created):subprocess.run(['docker','rm','-f',name],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
