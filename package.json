@@ -1,0 +1,27 @@
+{
+  "name": "etu-citra-raya",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build:staff": "esbuild staff/src/app.js --bundle --format=esm --target=es2022 --outfile=staff/app.bundle.js --minify --supported:template-literal=false",
+    "test": "node --test tests/staff-model.test.js",
+    "backend:start": "supabase start -x storage-api,imgproxy,realtime,studio,logflare,vector,supavisor",
+    "backend:stop": "supabase stop",
+    "backend:reset": "supabase db reset",
+    "test:integration": "python3 tests/staff_integration.py",
+    "backend:start:lite": "python3 tests/local_backend.py"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.119.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "supabase": "2.58.5"
+  },
+  "overrides": {
+    "tar": "7.5.22"
+  }
+}

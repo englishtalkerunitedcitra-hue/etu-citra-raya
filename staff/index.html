@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="referrer" content="no-referrer">
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co http://127.0.0.1:54321; base-uri 'none'; object-src 'none'; form-action 'self'">
+    <title>Ruang Tim · ETU Citra Raya</title>
+    <link rel="stylesheet" href="staff.css">
+    <script src="config.js" defer></script>
+    <script type="module" src="app.bundle.js"></script>
+  </head>
+  <body>
+    <header class="masthead">
+      <a class="brand" href="../index.html"
+        ><img
+          src="../etu-logo-480.png"
+          alt="ETU English Talker United"
+          width="142"
+          height="60"></a>
+      <div class="space-name">
+        RUANG TIM <span>CS &amp; Sales · Citra Raya</span>
+      </div>
+      <a class="public-link" href="../index.html">Website publik ↗</a>
+    </header>
+    <main>
+      <div
+        id="notice"
+        class="notice"
+        role="status"
+        aria-live="polite"
+        hidden
+      ></div>
+      <section id="login-panel" class="auth-layout">
+        <div class="welcome">
+          <span class="eyebrow">MAKE EVERY CONVERSATION COUNT</span>
+          <h1>Kenali kebutuhannya.<br><span>Dampingi langkahnya.</span></h1>
+          <p>
+            Satu ruang untuk mencatat prospek, menjaga tindak lanjut, dan
+            melihat perjalanan setiap learner bersama ETU.
+          </p>
+          <div class="journey">
+            <span>1C</span> Connect <i>→</i><span>3E</span> Explore · Educate ·
+            Experience <i>→</i><span>2C</span> Closing · Care
+          </div>
+          <p class="privacy">
+            Khusus staf undangan. Customer tetap dapat memilih program dan
+            booking Free Trial tanpa akun.
+          </p>
+        </div>
+        <div class="panel login-card">
+          <div class="card-kicker">SELAMAT DATANG KEMBALI</div>
+          <h2>Masuk ke ruang tim</h2>
+          <p class="muted">Gunakan akun pribadi yang diundang admin ETU.</p>
+          <form id="login-form">
+            <label
+              >Email<input
+                name="email"
+                type="email"
+                autocomplete="username"
+                required
+                maxlength="254"></label
+            ><label
+              >Password<input
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                required></label
+            ><button id="login-button" class="primary" type="submit">
+              Masuk →
+            </button>
+          </form>
+          <button class="text-button" id="reset-password" type="button">
+            Lupa password?
+          </button>
+          <p class="fine">
+            Tidak ada pendaftaran umum. Hubungi admin jika belum menerima
+            undangan.
+          </p>
+          <p id="config-status" class="fine"></p>
+        </div>
+      </section>
+      <section id="password-panel" class="panel password-card" hidden>
+        <h1>Buat password akun Anda</h1>
+        <p>
+          Gunakan minimal 12 karakter. Password ini hanya untuk akun Anda
+          sendiri.
+        </p>
+        <form id="password-form">
+          <label
+            >Password baru<input
+              name="password"
+              type="password"
+              autocomplete="new-password"
+              minlength="12"
+              required></label
+          ><label
+            >Ulangi password<input
+              name="confirm"
+              type="password"
+              autocomplete="new-password"
+              minlength="12"
+              required></label
+          ><button class="primary" type="submit">Simpan password</button>
+        </form>
+      </section>
+      <section id="dashboard" hidden>
+        <div class="dashboard-title">
+          <div>
+            <span class="eyebrow" id="today-label"></span>
+            <h1>Fokus hari ini<span class="title-dot">.</span></h1>
+            <p class="muted" id="greeting"></p>
+          </div>
+          <div class="toolbar">
+            <button id="refresh" type="button">↻ Muat ulang</button
+            ><button id="add-lead" class="primary" type="button">
+              ＋ Lead baru</button
+            ><button id="logout" class="text-button" type="button">
+              Keluar
+            </button>
+          </div>
+        </div>
+        <div class="sync-bar">
+          <span class="connection-dot"></span
+          ><span id="sync-status">Memuat data bersama…</span
+          ><span class="sheet-state">Google Sheet: belum tersinkron</span>
+        </div>
+        <div class="metrics" id="metrics"></div>
+        <section class="focus-section" aria-labelledby="focus-title">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">PILIHAN PRIBADI</span>
+              <h2 id="focus-title">Top 3 saya</h2>
+            </div>
+            <p class="fine">
+              Pilih hingga tiga lead. Tersimpan per akun, per hari (WIB).
+            </p>
+          </div>
+          <div id="top3" class="top-three"></div>
+        </section>
+        <section class="panel workbench" aria-labelledby="leads-title">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">MASTER PROSPEK</span>
+              <h2 id="leads-title">Percakapan yang perlu dilanjutkan</h2>
+            </div>
+            <span id="lead-count" class="pill"></span>
+          </div>
+          <form id="filters" class="filters">
+            <label
+              >Cari lead<input
+                name="search"
+                type="search"
+                placeholder="Nama, nomor, atau Lead ID"></label
+            ><label
+              >PIC<select name="pic">
+                <option value="">Semua PIC</option>
+              </select></label
+            ><label
+              >Tahap penjualan<select name="stage">
+                <option value="">Semua tahap</option>
+              </select></label
+            ><label
+              >Respons<select name="response">
+                <option value="">Semua respons</option>
+              </select></label
+            ><label
+              >Prioritas<select name="priority">
+                <option value="">Semua prioritas</option>
+              </select></label
+            ><label>Tanggal follow-up<input name="date" type="date"></label
+            ><label class="check"
+              ><input name="dormant" type="checkbox"> Dorman /
+              reaktivasi</label
+            ><button type="submit">Terapkan filter</button
+            ><button id="clear-filters" type="button">Reset filter</button>
+          </form>
+          <div class="list-controls">
+            <div class="segmented">
+              <button class="selected" id="view-priority" type="button">
+                Top 15 prioritas</button
+              ><button id="view-all" type="button">Semua lead</button>
+            </div>
+            <p class="fine">
+              Prioritas tinggi → tanggal follow-up terdekat. Ringkasan mengikuti
+              filter.
+            </p>
+          </div>
+          <div id="lead-list" class="lead-list"></div>
+        </section>
+        <section id="admin-section" class="panel admin-panel" hidden>
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">ADMIN</span>
+              <h2>Akses tim</h2>
+            </div>
+            <p class="fine">
+              Perubahan akses berlaku juga pada sesi yang masih aktif.
+            </p>
+          </div>
+          <form id="invite-form" class="invite-form">
+            <label
+              >Nama staf<input
+                type="text"
+                name="display_name"
+                maxlength="100"
+                required></label
+            ><label
+              >Email undangan<input
+                name="email"
+                type="email"
+                required
+                maxlength="254"></label
+            ><button class="primary" type="submit">Kirim undangan</button>
+          </form>
+          <p class="fine">
+            Undangan membuat akun Staf. Promosi Admin dan penonaktifan dilakukan
+            di daftar berikut.
+          </p>
+          <div id="staff-list"></div>
+        </section>
+      </section>
+    </main>
+    <dialog id="lead-dialog">
+      <div class="dialog-head">
+        <div>
+          <span class="eyebrow">MASTER PROSPEK + LOG AKTIVITAS</span>
+          <h2 id="editor-title">Lead baru</h2>
+        </div>
+        <button id="close-editor" type="button" aria-label="Tutup form">
+          ×
+        </button>
+      </div>
+      <p id="lead-id" class="fine"></p>
+      <p id="editor-error" role="alert" class="error" hidden></p>
+      <form id="lead-form">
+        <div class="form-grid">
+          <label
+            >Nama lead<input
+              type="text"
+              name="name"
+              required
+              maxlength="150"></label
+          ><label
+            >Nomor WhatsApp / telepon<input
+              name="phone"
+              type="tel"
+              maxlength="40"></label
+          ><label>Program<select name="program" required></select></label
+          ><label>PIC<select name="pic_id" required></select></label
+          ><label
+            >Langkah 1C–3E–2C<select name="flow_step" required></select></label
+          ><label
+            >Tahap penjualan<select name="sales_stage" required></select></label
+          ><label
+            >Respons customer<select name="response" required></select></label
+          ><label>Prioritas<select name="priority" required></select></label
+          ><label
+            >Kontak terakhir<input
+              name="last_contact_at"
+              type="datetime-local"></label
+          ><label
+            >Tanggal follow-up<input name="follow_up_on" type="date"></label
+          ><label
+            >Jadwal trial<input name="trial_at" type="datetime-local"></label
+          ><label
+            >Tanggal registrasi<input name="registered_on" type="date"></label
+          ><label class="wide"
+            >Next action<input
+              type="text"
+              name="next_action"
+              maxlength="1000"
+              placeholder="Contoh: konfirmasi jadwal trial dengan orang tua"></label
+          ><label class="wide"
+            >Catatan lead<textarea
+              name="notes"
+              maxlength="6000"
+              rows="3"
+            ></textarea></label
+          ><label class="wide"
+            >Catat aktivitas / hasil follow-up<textarea
+              name="activity"
+              maxlength="6000"
+              rows="3"
+              placeholder="Ditambahkan ke riwayat; catatan lama tidak ditimpa."
+            ></textarea></label
+          ><label class="check wide"
+            ><input type="checkbox" name="dormant"> Dorman — masukkan daftar
+            reaktivasi</label
+          >
+        </div>
+        <p class="fine">
+          Waktu input mengikuti perangkat; waktu riwayat ditampilkan dalam WIB.
+          Simpan memperbarui database bersama, bukan Google Sheet.
+        </p>
+        <div class="editor-actions">
+          <button id="save-lead" class="primary" type="submit">
+            Simpan ke database bersama</button
+          ><button id="reload-lead" type="button" hidden>
+            Muat versi terbaru
+          </button>
+        </div>
+      </form>
+      <section id="history-section" hidden>
+        <h3>Log Aktivitas</h3>
+        <div id="history"></div>
+      </section>
+    </dialog>
+    <footer>
+      ETU Citra Raya · Ruang kerja internal · Data hanya untuk layanan CS &amp;
+      Sales
+    </footer>
+  </body>
+</html>
