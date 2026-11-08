@@ -1,0 +1,10 @@
+node_modules/
+.env
+.env.*
+!.env.example
+staff/config.local.js
+supabase/.temp/
+supabase/.branches/
+__pycache__/
+*.pyc
+test-results/
