@@ -1,5 +1,6 @@
 import { DatabaseStore, deliver } from "./core.ts";
 import { googleToken, GoogleSheets } from "./google.ts";
+import { authorizeScheduler } from "./scheduler.ts";
 const url = Deno.env.get("SUPABASE_URL")!;
 const anon = Deno.env.get("SUPABASE_ANON_KEY")!;
 const service = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -34,11 +35,7 @@ Deno.serve(
     const expected = Deno.env.get("SHEETS_SYNC_JOB_TOKEN");
     const supplied = request.headers.get("x-job-token") || "";
     // Scheduler requires both the service credential and a separate secret header.
-    const scheduled =
-      !!expected &&
-      expected.length >= 32 &&
-      supplied === expected &&
-      authorization === `Bearer ${service}`;
+    const scheduled = await authorizeScheduler(url, authorization, supplied, expected);
     if (!scheduled) {
       const userHeaders = { apikey: anon, Authorization: authorization };
       const identity = await fetch(url + "/auth/v1/user", {
