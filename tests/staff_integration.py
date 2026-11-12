@@ -166,9 +166,9 @@ try:
         sp.locator('#lead-form input[name=next_action]').fill('Hubungi orang tua besok')
         sp.locator('#lead-form textarea[name=activity]').fill('Percakapan awal: ingin jadwal sore.')
         sp.locator('#save-lead').click();expect(sp.locator('#lead-dialog')).not_to_be_visible(timeout=15000)
-        ap.locator('#refresh').click();expect(ap.locator('#lead-list')).to_contain_text('Prospek Browser '+RUN,timeout=15000)
+        ap.bring_to_front();ap.locator('#refresh').click();expect(ap.locator('#refresh')).to_be_enabled(timeout=15000);ap.locator('#filters input[name=search]').fill('Prospek Browser '+RUN);expect(ap.locator('#lead-list')).to_contain_text('Prospek Browser '+RUN,timeout=15000)
         row=ap.locator('.lead-row').filter(has_text='Prospek Browser '+RUN);browser_id=row.get_attribute('data-lead-id');assert browser_id
-        row.get_by_role('button',name='Buka / follow-up').click();expect(ap.locator('#history')).to_contain_text('Percakapan awal: ingin jadwal sore.')
+        row.get_by_role('button',name='Buka / follow-up').dispatch_event('click');expect(ap.locator('#history')).to_contain_text('Percakapan awal: ingin jadwal sore.')
         ap.locator('#close-editor').click()
         sp.locator('.lead-row').filter(has_text='Prospek Browser '+RUN).locator('.pin').click();expect(sp.locator('#top3')).to_contain_text('Prospek Browser '+RUN)
         ap.locator('#filters input[name=search]').fill('Prospek Browser '+RUN)

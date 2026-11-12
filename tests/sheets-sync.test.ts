@@ -413,3 +413,12 @@ Deno.test("Master Prospek exports all 25 template columns and preserves legacy v
   assert(old[2] === "" && old[3] === ""); // Never guess who the legacy name refers to.
   assert(old[26] === job.payload.name);
 });
+Deno.test("Master and Activity export monthly code with stable UUID fallback", () => {
+ const master=cells({...job,payload:{...job.payload,lead_code:"Nov26-037"}});
+ assert(master[0]==="Nov26-037");
+ assert(cells(job)[0]==="lead-1");
+ const log={...job,kind:"activity" as const,payload:{id:"activity-uuid",lead_id:"lead-uuid",lead_code:"Nov26-037",changes:{}}};
+ assert(cells(log)[1]==="Nov26-037");
+ delete (log.payload as Record<string,unknown>).lead_code;
+ assert(cells(log)[1]==="lead-uuid");
+});

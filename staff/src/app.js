@@ -264,7 +264,7 @@ function render() {
       const info = el("div");
       info.append(
         el("div", lead.name, "lead-name"),
-        el("span", "ID " + lead.id, "lead-id"),
+        el("span", "ID " + (lead.lead_code || lead.id), "lead-id"),
         el("p", PROGRAMS[lead.program] + " · " + nameOf(lead.pic_id)),
       );
       const next = el("div");
@@ -365,8 +365,8 @@ async function openEditor(id = null) {
   }
   $("#editor-title").textContent = editing ? "Update & follow-up" : "Lead baru";
   $("#lead-id").textContent = editing
-    ? `Lead ID ${editing.id} · Versi ${editing.version} · Diperbarui ${dateTime(editing.updated_at)} oleh ${nameOf(editing.updated_by)}`
-    : "Lead ID dibuat otomatis saat penyimpanan pertama.";
+    ? `Lead ID ${editing.lead_code || editing.id} · Versi ${editing.version} · Diperbarui ${dateTime(editing.updated_at)} oleh ${nameOf(editing.updated_by)}`
+    : "Lead ID seperti Nov26-001 dibuat otomatis saat penyimpanan pertama (bulan WIB).";
   $("#history-section").hidden = !editing;
   $("#reload-lead").hidden = true;
   $("#history").replaceChildren();
@@ -452,7 +452,7 @@ leadForm.addEventListener("submit", async (event) => {
     $("#lead-dialog").close();
     pending = null;
     notify(
-      `Tersimpan di database bersama. Lead ID: ${saved.id}. Salinan Google Sheet masuk antrean; menunggu konfirmasi Google.`,
+      `Tersimpan di database bersama. Lead ID: ${saved.lead_code || saved.id}. Salinan Google Sheet masuk antrean; menunggu konfirmasi Google.`,
     );
     await load();
   } catch (error) {
