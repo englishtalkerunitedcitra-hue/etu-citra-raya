@@ -17,6 +17,12 @@ export const FLOWS = {
 export const STAGES = {
   new: "Lead baru",
   contacted: "Sudah dihubungi",
+  responded: "Responded",
+  trial_offered: "Trial Offered",
+  placement_test_booked: "Placement Test Booked",
+  follow_up_after_trial: "Follow-up After Trial",
+  future_lead: "Future Lead",
+
   trial: "Trial",
   trial_attended: "Trial Attended",
   registered: "Registered",
@@ -60,7 +66,7 @@ export function summary(leads, day) {
     ).length,
     trials: leads.filter(
       (x) =>
-        x.sales_stage === "trial" &&
+        ["trial", "placement_test_booked"].includes(x.sales_stage) &&
         x.trial_at &&
         jakartaDay(new Date(x.trial_at)) >= day,
     ).length,
@@ -79,7 +85,7 @@ export function filterLeads(leads, filters) {
       (!filters.date || x.follow_up_on === filters.date) &&
       (!filters.dormant || x.dormant) &&
       (!filters.search ||
-        `${x.name} ${x.phone} ${x.id}`
+        `${x.name} ${x.phone} ${x.id} ${Object.values(x.master_details || {}).join(" ")}`
           .toLowerCase()
           .includes(filters.search.toLowerCase())),
   );

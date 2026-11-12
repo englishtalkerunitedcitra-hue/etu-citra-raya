@@ -360,6 +360,9 @@ async function openEditor(id = null) {
       else if (field.type === "datetime-local") field.value = localInput(value);
       else field.value = value ?? "";
     }
+  for (const field of leadForm.querySelectorAll('[name^="master_"]')) {
+    field.value = editing?.master_details?.[field.name.slice(7)] ?? "";
+  }
   $("#editor-title").textContent = editing ? "Update & follow-up" : "Lead baru";
   $("#lead-id").textContent = editing
     ? `Lead ID ${editing.id} · Versi ${editing.version} · Diperbarui ${dateTime(editing.updated_at)} oleh ${nameOf(editing.updated_by)}`
@@ -415,6 +418,14 @@ leadForm.addEventListener("submit", async (event) => {
   }
   const data = Object.fromEntries(new FormData(leadForm));
   delete data.activity;
+  // Keep the complete template fields together; untouched legacy data is retained.
+  const masterDetails = {};
+  for (const key of Object.keys(data)) {
+    if (!key.startsWith("master_")) continue;
+    masterDetails[key.slice(7)] = String(data[key]).trim();
+    delete data[key];
+  }
+  data.master_details = masterDetails;
   data.pic_id = formField("pic_id").value;
   data.dormant = formField("dormant").checked;
   for (const name of ["last_contact_at", "trial_at"])

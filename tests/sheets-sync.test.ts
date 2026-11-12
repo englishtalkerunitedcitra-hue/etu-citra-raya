@@ -164,9 +164,9 @@ Deno.test(
     });
     assert(
       row[0] === "lead-1" &&
-        row[1] === 2 &&
-        row[8] === "Trial" &&
-        row[9] === "Masih mempertimbangkan",
+        row[25] === 2 &&
+        row[12] === "Trial Booked" &&
+        row[27] === "Masih mempertimbangkan",
     );
     assert(range("Tim 'ETU'", 2, "master").startsWith("'Tim ''ETU'''!A2:"));
     assert(row.length === headers("master").length);
@@ -183,7 +183,7 @@ Deno.test(
     assert(p.rows.size === 3);
     assert(db.finished.every((x) => x[0].ok));
     assert(
-      p.rows.get(range(config.master_title, 2, "master"))?.[2] ===
+      p.rows.get(range(config.master_title, 2, "master"))?.[26] ===
         job.payload.name,
     );
   },
@@ -388,3 +388,28 @@ Deno.test(
     assert(structural && written && db.finished[0][0].ok);
   },
 );
+Deno.test("Master Prospek exports all 25 template columns and preserves legacy values", () => {
+  const detail = {
+    entered_on: "2026-11-12", parent_name: "Parent Dummy", student_name: "Student Dummy",
+    school: "School Dummy", age: "10", domicile: "Citra Raya", lead_source: "School Event",
+    source_detail: "Event Dummy", temperature: "Warm", follow_up_count: "3",
+    trial_attendance: "Reschedule", recommended_level: "Level Dummy",
+    recommended_schedule: "Saturday", decision_barrier: "Schedule", payment_status: "Payment 1",
+    legacy_lead_id: "OLD-001",
+  };
+  const row = cells({...job, payload: {...job.payload, master_details: detail,
+    phone: "0800000000", pic_name: "CS Dummy", sales_stage: "follow_up_after_trial",
+    last_contact_at: "2026-11-11T02:00:00Z", next_action: "Confirm schedule",
+    follow_up_on: "2026-11-13", trial_at: "2026-11-14T02:00:00Z", registered_on: "2026-11-15"}});
+  assert(JSON.stringify(row.slice(0,25)) === JSON.stringify([
+    "lead-1", "2026-11-12", "Parent Dummy", "Student Dummy", "School Dummy", "10",
+    "0800000000", "Citra Raya", "Kid Talker", "School Event", "Event Dummy", "CS Dummy",
+    "Follow-up After Trial", "Warm", "2026-11-11T02:00:00Z", "Confirm schedule", "2026-11-13",
+    "3", "2026-11-14T02:00:00Z", "Reschedule", "Level Dummy", "Saturday", "Schedule", "2026-11-15", "Payment 1",
+  ]));
+  assert(row[32] === "OLD-001");
+  const old = cells({...job, payload: {...job.payload, created_at: "2026-11-11T18:00:00Z"}});
+  assert(old[1] === "2026-11-12");
+  assert(old[2] === "" && old[3] === ""); // Never guess who the legacy name refers to.
+  assert(old[26] === job.payload.name);
+});

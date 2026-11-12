@@ -240,7 +240,7 @@
       <form id="lead-form">
         <div class="form-grid">
           <label
-            >Nama lead<input
+            >Nama tampilan lead<input
               type="text"
               name="name"
               required
@@ -250,6 +250,22 @@
               name="phone"
               type="tel"
               maxlength="40"></label
+          ><label>Tanggal masuk<input name="master_entered_on" type="date"></label
+          ><label>Nama parent<input name="master_parent_name" type="text" maxlength="500"></label
+          ><label>Nama siswa<input name="master_student_name" type="text" maxlength="500"></label
+          ><label>Asal sekolah<input name="master_school" type="text" maxlength="500"></label
+          ><label>Usia<input name="master_age" type="number" min="0" max="120" step="1"></label
+          ><label>Domisili<input name="master_domicile" type="text" maxlength="500"></label
+          ><label>Sumber lead<input name="master_lead_source" type="text" maxlength="500"></label
+          ><label>Detail sumber / sekolah<input name="master_source_detail" type="text" maxlength="500"></label
+          ><label>Temperature<input name="master_temperature" type="text" maxlength="500"></label
+          ><label>Follow-up count<input name="master_follow_up_count" type="number" min="0" max="100000" step="1"></label
+          ><label>Trial attendance<input name="master_trial_attendance" type="text" maxlength="500"></label
+          ><label>Recommended level<input name="master_recommended_level" type="text" maxlength="500"></label
+          ><label>Recommended schedule<input name="master_recommended_schedule" type="text" maxlength="500"></label
+          ><label>Decision barrier<input name="master_decision_barrier" type="text" maxlength="500"></label
+          ><label>Payment status<input name="master_payment_status" type="text" maxlength="500"></label
+          ><label>Lead ID lama (jika ada)<input name="master_legacy_lead_id" type="text" maxlength="500"></label
           ><label>Program<select name="program" required></select></label
           ><label>PIC<select name="pic_id" required></select></label
           ><label
