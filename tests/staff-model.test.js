@@ -79,3 +79,8 @@ test("Placement test bookings are included in upcoming trial summary", () => {
   const record = lead("placement", {sales_stage: "placement_test_booked", trial_at: "2026-11-12T03:00:00Z"});
   assert.equal(summary([record], "2026-11-12").trials, 1);
 });
+test("Monthly display code search retains UUID and legacy searches", () => {
+  const r=lead("uuid-value", {lead_code:"Nov26-037",master_details:{legacy_lead_id:"OLD-001"}});
+  for(const search of ["nov26-037","uuid-value","OLD-001"])
+    assert.equal(filterLeads([r],{search}).length,1);
+});

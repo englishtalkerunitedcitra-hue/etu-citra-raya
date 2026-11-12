@@ -100,7 +100,7 @@ export function cells(job) {
   if (job.kind === "activity")
     return [
       p.id,
-      p.lead_id,
+      p.lead_code || p.lead_id,
       p.actor_id,
       p.actor_name,
       p.created_at,
@@ -111,7 +111,7 @@ export function cells(job) {
   if (job.kind !== "master") throw new Error("Invalid entity kind");
   const d = p.master_details || {};
   return [
-    p.id, d.entered_on || (p.created_at ? new Intl.DateTimeFormat("en-CA", {
+    p.lead_code || p.id, d.entered_on || (p.created_at ? new Intl.DateTimeFormat("en-CA", {
       timeZone: "Asia/Jakarta", year: "numeric", month: "2-digit", day: "2-digit",
     }).format(new Date(p.created_at)) : ""),
     d.parent_name, d.student_name, d.school, d.age, p.phone, d.domicile,

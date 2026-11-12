@@ -85,7 +85,7 @@ export function filterLeads(leads, filters) {
       (!filters.date || x.follow_up_on === filters.date) &&
       (!filters.dormant || x.dormant) &&
       (!filters.search ||
-        `${x.name} ${x.phone} ${x.id} ${Object.values(x.master_details || {}).join(" ")}`
+        `${x.name} ${x.phone} ${x.id} ${x.lead_code || ""} ${Object.values(x.master_details || {}).join(" ")}`
           .toLowerCase()
           .includes(filters.search.toLowerCase())),
   );
