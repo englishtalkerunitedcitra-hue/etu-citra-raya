@@ -3,6 +3,7 @@ import {
   type Batch,
   type Result,
 } from "../supabase/functions/sheets-sync/core.ts";
+import { authorizeScheduler } from "../supabase/functions/sheets-sync/scheduler.ts";
 import {
   GoogleSheets,
   googleToken,
@@ -17,6 +18,26 @@ import {
 const assert = (v: unknown, message = "Assertion failed") => {
   if (!v) throw new Error(message);
 };
+Deno.test("scheduler requires its secret and service-only database access", async () => {
+  const token = "x".repeat(48);
+  let calls = 0;
+  const allowed = (async () => {
+    calls++;
+    return Response.json([{ singleton: true }]);
+  }) as typeof fetch;
+  assert(!await authorizeScheduler("https://example.test", "Bearer staff", "wrong", token, allowed));
+  assert(calls === 0);
+  assert(await authorizeScheduler("https://example.test", "Bearer valid-service-jwt", token, token, allowed));
+  for (const response of [
+    new Response("denied", { status: 403 }), Response.json([]),
+    Response.json({ singleton: true }), Response.json([{ singleton: false }]),
+  ]) {
+    assert(!await authorizeScheduler("https://example.test", "Bearer staff", token, token,
+      (async () => response) as typeof fetch));
+  }
+  assert(!await authorizeScheduler("https://example.test", "Bearer service", token, token,
+    (async () => { throw new Error("offline"); }) as typeof fetch));
+});
 const config = {
   spreadsheet_id: "local-fixture-only",
   master_title: "ETU App - Master Prospek",

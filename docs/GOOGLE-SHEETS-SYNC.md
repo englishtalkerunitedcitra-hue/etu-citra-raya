@@ -4,6 +4,16 @@ Target workbook supplied by ETU:
 
 https://docs.google.com/spreadsheets/d/1zi-DybtGZDHgWVEPt1xpGXWQgKixxIPQQPZg6nIsDHg/edit
 
+## Hosted activation — 12 November 2026
+
+Synchronization is enabled for ETU project `tnbhblojvqshmsrkfvap`. The owner installed the Google service-account credential in Edge Function secrets. A live run received valid Google acknowledgements for one master lead and two activity records; all three records were then read back from the destination tabs by stable ID. No records remained pending. The existing manual workbook tabs were preserved.
+
+A Supabase Cron job named `etu-sheets-sync` runs every minute. Scheduler credentials are stored in Supabase Vault; the separate job token is also an Edge Function secret. Requests require both the job token and authenticated service-only database access. This accepts valid service-role credentials without requiring the JWT text to equal the runtime's built-in credential. Anonymous requests, anonymous credentials with the job token, and service-role credentials without the job token were rejected with HTTP 401.
+
+The destination tabs are **ETU App - Master Prospek** and **ETU App - Log Aktivitas**, not the original manual tabs. The database remains the source of truth; edits in Sheets are not imported. Do not move/delete rows in app-managed tabs; use filter views instead. New/updated records queue transactionally on save and normally reach Sheets on the next scheduled batch, subject to provider availability and retry backoff.
+
+Validation: five staff-model tests and fourteen sync tests passed, including the scheduler authorization regression. No secret values or customer payloads are included in this document. The setup instructions below describe how to reproduce or recover configuration; do not repeat setup on the activated project.
+
 ## What this implements
 
 The shared database remains the source of truth. A transactional outbox copies Master Prospek and Log Aktivitas **one way, database → Google Sheet**. Changes made directly in a Sheet are not imported into the app. Staff/customer login, public booking, and existing analytics are unchanged.
@@ -13,13 +23,13 @@ The worker creates two dedicated tabs inside the supplied workbook:
 - `ETU App - Master Prospek`
 - `ETU App - Log Aktivitas`
 
-Original tabs and their manual data are not renamed, cleared, adopted, or overwritten. Existing tabs with these names must carry the app's developer-metadata ownership marker and matching headers; otherwise the worker stops. Choose different names in the server config if there is a collision. The original workbook structure could not yet be inspected: the current cloud network denied Google Docs/Sheets access, and there is no confirmed Google editor identity for this file. The integration therefore does not assume or alter the original template's columns.
+Original tabs and their manual data are not renamed, cleared, adopted, or overwritten. Existing tabs with these names must carry the app's developer-metadata ownership marker and matching headers; otherwise the worker stops. Choose different names in the server config if there is a collision. The original workbook tabs remain separate from the app-managed schema.
 
 Master rows contain Lead ID, DB version, name/contact, program, PIC, separate selling step/sales stage/customer response, priority/Dorman, dates, next action, notes, and creator/updater identity/timestamps. Activity rows contain stable Activity ID, Lead ID, actor, time, follow-up note, and before/after changes. See `supabase/functions/sheets-sync/mapping.js` for exact headers.
 
-## Production prerequisites — still required
+## Setup and recovery reference
 
-The existing ETU development project `tnbhblojvqshmsrkfvap` has been restored and its application migrations/Auth configuration and server functions are now deployed. Staff SMTP/admin activation and frontend publication are still pending. A Sheet URL alone is not write authorization. Complete `STAFF-SETUP.md` first, then:
+The existing ETU development project `tnbhblojvqshmsrkfvap` has been restored and its application migrations/Auth configuration and server functions are now deployed. Staff SMTP/admin activation and frontend publication have also been completed. A Sheet URL alone is not write authorization. Complete `STAFF-SETUP.md` first, then:
 
 1. In a Google Cloud project owned by ETU, enable **Google Sheets API** and create a dedicated service account. A Drive-wide scope is not required.
 2. In this workbook's **Share / Bagikan** dialog, add the service account's `client_email` as **Editor**. Do not make the workbook public. Keep access to the full workbook restricted to the admin/authorized viewers: Google Sheet sharing does not reproduce the application's per-PIC row-level permissions.
@@ -34,7 +44,7 @@ The existing ETU development project `tnbhblojvqshmsrkfvap` has been restored an
 
 7. Log in as an active Admin and click **Sinkronkan Sheet**. Staff/anonymous users cannot invoke a full-workbook sync. Verify the two new tabs, Lead ID/version, one activity row, and dashboard confirmation. A quota/access/header error leaves data pending and does not report it as synchronized.
 
-The ETU development backend and functions are now deployed using the securely configured Management API credential. The Google service-account key is still not configured. Google permission/activation steps have **not** been run against the supplied workbook. If ETU already has a suitable service account, use its email for sharing rather than creating a duplicate account. Only its email/project URL may be shared in chat; keep keys in secure settings.
+The ETU development backend and functions are now deployed using the securely configured Management API credential. Google credential installation, permissions and initial delivery have now been verified as recorded above. If ETU already has a suitable service account, use its email for sharing rather than creating a duplicate account. Only its email/project URL may be shared in chat; keep keys in secure settings.
 
 ## Schedule automatic sync
 
@@ -57,7 +67,7 @@ select cron.schedule('etu-sheets-sync', '* * * * *', $$
 $$);
 ```
 
-This job is a deployment step for the ETU project owner; it has not been installed automatically. Do not put decrypted secrets or scheduler headers into a PR/comment/log. Review Cron failures/Edge Function status without logging lead payloads or OAuth tokens.
+This job is installed on the ETU project. The SQL above documents its configuration for recovery. Do not put decrypted secrets or scheduler headers into a PR/comment/log. Review Cron failures/Edge Function status without logging lead payloads or OAuth tokens.
 
 ## Delivery and recovery behavior
 
@@ -81,7 +91,7 @@ This job is a deployment step for the ETU project owner; it has not been install
 - 13 Deno tests use a simulated Google transport to verify RAW mapping, stable-row retries after ambiguous results, response validation, header/ownership protection, busy/disabled workers, DB-acknowledgement failure, and Google-only OAuth signing/scopes.
 - Local real PostgreSQL/Auth tests verify transactional queueing, service-only worker RPCs, per-PIC status, leases, version fencing, stable rows, and retry states. Google acknowledgements are deliberately simulated in that DB test; no live Sheet write is implied.
 - Staff/browser regression checks still exercise invitation, real shared saves across separate browsers, unauthorized access rejection, and public booking without login.
-- **Live Google Sheet read/write, Google permission grant, hosted scheduling, and production deployment remain unverified** until the service account and ETU backend are configured. Network additions for `docs.google.com`, `sheets.googleapis.com`, and `oauth2.googleapis.com` were saved in the cloud environment draft; review/save and publish that environment if you want this cloud session to perform live verification.
+- **Live Google Sheet read/write and hosted activation are verified** as recorded above. Network additions for `docs.google.com`, `sheets.googleapis.com`, and `oauth2.googleapis.com` were saved in the cloud environment draft; review/save and publish that environment if you want this cloud session to perform live verification.
 
 Commands after installing the existing test dependencies:
 
