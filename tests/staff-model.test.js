@@ -70,3 +70,12 @@ test("Daily summary uses WIB trial dates, distinct registration date, and open-l
     registered: 1,
   });
 });
+test("Master Prospek search includes parent, student, school and legacy ID", () => {
+  const record = lead("one", {master_details: {parent_name: "Parent Dummy", student_name: "Student Dummy", school: "School Dummy", legacy_lead_id: "OLD-001"}});
+  for (const search of ["parent dummy", "student dummy", "school dummy", "old-001"])
+    assert.equal(filterLeads([record], {search}).length, 1);
+});
+test("Placement test bookings are included in upcoming trial summary", () => {
+  const record = lead("placement", {sales_stage: "placement_test_booked", trial_at: "2026-11-12T03:00:00Z"});
+  assert.equal(summary([record], "2026-11-12").trials, 1);
+});
