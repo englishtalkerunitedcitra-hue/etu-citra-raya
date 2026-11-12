@@ -1,4 +1,36 @@
-# Master Prospek template adoption (review before deployment)
+# Master Prospek template adoption
+
+## Production release — 12 November 2026
+
+Released with ETU's approval. PRs #8 and #9 were merged; GitHub Pages successfully
+published commit `dd348b8e09f48da006923f600860140cd750f7c5`. Migration
+`202611120001` is applied and recorded in the migration ledger. The matching
+`sheets-sync` function is active with JWT verification and the one-minute Cron schedule.
+
+Before the layout change, database tables were snapshotted into a private backup schema,
+and application-managed Master/Activity Sheet tabs were duplicated as backups. The new
+40-column export (25 template fields plus 15 app/audit fields) was written and read back
+in a hidden staging copy before updating the application Master tab. Both existing
+prospects were retained. Hash comparison confirmed the original manual Master Prospek,
+Log Aktivitas and Dashboard ranges were unchanged.
+
+Hosted verification used temporary test accounts and dummy data: a staff member saved
+all new fields through the mobile form, a separate admin browser reopened the same
+values, and the scheduled worker confirmed delivery to Google. Master and Activity IDs
+and template values were independently read back from Sheets. Customer Free Trial
+worked without login; the WhatsApp request was intercepted without sending a message.
+Anonymous direct database and sync-function calls were rejected. No browser JavaScript
+errors or mobile dialog overflow were observed. The public homepage and trial HTML
+matched their previous production bytes.
+
+Temporary accounts, dummy database records and their exact Sheet rows were removed.
+The temporary upgrade endpoint was deleted. Sync and Cron were re-enabled; no pending
+records remained. Original manual history is still not imported and existing workbook
+Dashboard formulas are not connected to the application tabs. Follow-up Count remains
+an explicit input. Refresh the staff page if an existing browser shows the old form.
+
+The mapping and reproducible release procedure below document the implemented change.
+
 
 Source: ETU Selling Process Monitoring, original Master Prospek tab, gid `2127889910`.
 The 25 column labels were read directly from the source header range on 12 November 2026.
@@ -59,7 +91,7 @@ details. Old clients omitting details preserve them. The existing server role/PI
 idempotency lock, optimistic version checks, audit rows and transactional sync queue remain.
 Direct client database writes remain denied. Input is exported as RAW text to Sheets.
 
-## Release procedure — not performed by this PR
+## Release procedure (completed; reference for recovery)
 
 1. Review the migration, app form and mapping. Back up the application-managed Sheet tabs
    and database before changing an established export layout.
@@ -78,8 +110,8 @@ Direct client database writes remain denied. Input is exported as RAW text to Sh
    review: deduplicate, map PIC to real accounts, reconcile original IDs and review formulas.
    No original rows or dashboard formulas are changed by this PR.
 
-The current live website and existing 24-column export continue to operate until approval
-and this coordinated release. A header mismatch fails safely rather than overwriting data.
+The live website now uses the complete template and the 40-column export. A header
+mismatch still fails safely rather than overwriting data.
 
 ## Validation
 
