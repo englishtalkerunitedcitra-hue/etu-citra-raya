@@ -84,3 +84,14 @@ test("Monthly display code search retains UUID and legacy searches", () => {
   for(const search of ["nov26-037","uuid-value","OLD-001"])
     assert.equal(filterLeads([r],{search}).length,1);
 });
+test("branch filter keeps each branch's customer records separate", () => {
+  const records = [
+    lead("taman", { branch_code: "taman_royal" }),
+    lead("citra", { branch_code: "citra_raya" }),
+    lead("palem", { branch_code: "palem_semi" }),
+  ];
+  assert.deepEqual(filterLeads(records, { branch: "all" }).map((x) => x.id),
+    ["taman", "citra", "palem"]);
+  assert.deepEqual(filterLeads(records, { branch: "palem_semi" }).map((x) => x.id),
+    ["palem"]);
+});

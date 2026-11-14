@@ -129,6 +129,7 @@
           ><span id="sync-status">Memuat data bersama…</span
           ><span id="sheet-status" class="sheet-state" role="status">Google Sheet: menunggu konfirmasi</span>
         </div>
+        <nav id="branch-tabs" class="branch-tabs" aria-label="Pilih cabang"></nav>
         <div class="metrics" id="metrics"></div>
         <section class="focus-section" aria-labelledby="focus-title">
           <div class="section-heading">
@@ -215,6 +216,7 @@
                 type="email"
                 required
                 maxlength="254"></label
+            ><label>Cabang<select name="branch_code" required></select></label
             ><button class="primary" type="submit">Kirim undangan</button>
           </form>
           <p class="fine">
@@ -239,6 +241,7 @@
       <p id="editor-error" role="alert" class="error" hidden></p>
       <form id="lead-form">
         <div class="form-grid">
+          <label>Cabang<select name="branch_code" required></select></label>
           <label
             >Nama tampilan lead<input
               type="text"

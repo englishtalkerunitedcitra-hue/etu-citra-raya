@@ -61,10 +61,11 @@ okay(api('/rest/v1/staff_profiles?id=eq.'+admin['id'],'PATCH',{'role':'admin','a
 admin_token=login(admin_email)
 # The deployed Edge Function must enforce the same JWT and DB admin rules used in production.
 staff_email=f'staff-{RUN}@example.test'
-invite=okay(api('/functions/v1/staff-admin','POST',{'action':'invite','email':staff_email,'display_name':'Staf Uji'},token=admin_token))
+invite=okay(api('/functions/v1/staff-admin','POST',{'action':'invite','email':staff_email,'display_name':'Staf Uji','branch_code':'citra_raya'},token=admin_token))
 assert invite.get('ok'), invite
 staff=profile_for(staff_email)
 assert staff['active'] and staff['role']=='staff'
+assert staff['branch_code']=='citra_raya'
 if os.environ.get('ETU_LOCAL_BACKEND_STATUS'):
     # Open the actual local email invitation in a fresh browser and set the staff password.
     deadline=time.monotonic()+20
@@ -116,6 +117,9 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:
     results=list(pool.map(lambda _:okay(api('/rest/v1/rpc/save_sales_lead','POST',payload,token=staff_token)),range(2)))
 assert results[0]['id']==results[1]['id']
 lead=results[0]
+assert lead['branch_code']=='citra_raya'
+code,_=api('/rest/v1/rpc/save_sales_lead','POST',{**payload,'p_request_id':str(uuid.uuid4()),'p_data':{**payload['p_data'],'branch_code':'palem_semi'}},token=staff_token)
+assert code>=400
 logs=okay(api('/rest/v1/lead_activities?lead_id=eq.'+lead['id'],token=admin_token))
 assert len(logs)==1
 visible=okay(api('/rest/v1/sales_leads?id=eq.'+lead['id'],token=admin_token));assert visible[0]['name']==payload['p_data']['name']
@@ -133,6 +137,12 @@ other_email=f'other-{RUN}@example.test'
 other=okay(api('/auth/v1/admin/users','POST',{'email':other_email,'password':PASSWORD,'email_confirm':True},service=True))
 okay(api('/rest/v1/staff_profiles?id=eq.'+other['id'],'PATCH',{'active':True},service=True))
 other_token=login(other_email)
+okay(api('/functions/v1/staff-admin','POST',{'action':'branch','id':other['id'],'branch_code':'palem_semi'},token=admin_token))
+assert profile_for(other_email)['branch_code']=='palem_semi'
+palem_payload={**payload,'p_request_id':str(uuid.uuid4()),'p_data':{**payload['p_data'],'name':'Palem test','pic_id':other['id'],'branch_code':'palem_semi'}}
+palem_lead=okay(api('/rest/v1/rpc/save_sales_lead','POST',palem_payload,token=other_token))
+assert palem_lead['branch_code']=='palem_semi'
+assert okay(api('/rest/v1/sales_leads?id=eq.'+palem_lead['id'],token=staff_token))==[]
 assert okay(api('/rest/v1/sales_leads?id=eq.'+lead['id'],token=other_token))==[]
 assert okay(api('/rest/v1/lead_activities?lead_id=eq.'+lead['id'],token=other_token))==[]
 code,_=api('/rest/v1/rpc/save_sales_lead','POST',{**update,'p_request_id':str(uuid.uuid4()),'p_expected_version':2},token=other_token);assert code>=400
@@ -161,6 +171,11 @@ try:
             return page
         sp=enter(staff_context,staff_email);ap=enter(admin_context,admin_email)
         expect(sp.locator('#admin-section')).to_be_hidden();expect(ap.locator('#admin-section')).to_be_visible()
+        assert sp.locator('#branch-tabs button').count()==1
+        assert ap.locator('#branch-tabs button').count()==4
+        ap.locator('#branch-tabs button').filter(has_text='ETU Palem Semi').click()
+        expect(ap.locator('#lead-list')).to_contain_text('Palem test')
+        ap.locator('#branch-tabs button').filter(has_text='Semua Cabang').click()
         sp.locator('#add-lead').click();sp.locator('#lead-form input[name=name]').fill('Prospek Browser '+RUN)
         sp.locator('#lead-form select[name=program]').select_option('kid-talker')
         sp.locator('#lead-form input[name=next_action]').fill('Hubungi orang tua besok')

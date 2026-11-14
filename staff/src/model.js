@@ -6,6 +6,11 @@ export const PROGRAMS = {
   "adult-talker": "Adult Talker",
   undecided: "Belum ditentukan",
 };
+export const BRANCHES = {
+  taman_royal: "ETU Taman Royal",
+  citra_raya: "ETU Citra Raya",
+  palem_semi: "ETU Palem Semi",
+};
 export const FLOWS = {
   connect: "Connect",
   explore: "Explore",
@@ -78,6 +83,7 @@ export function summary(leads, day) {
 export function filterLeads(leads, filters) {
   return leads.filter(
     (x) =>
+      (!filters.branch || filters.branch === "all" || x.branch_code === filters.branch) &&
       (!filters.pic || x.pic_id === filters.pic) &&
       (!filters.stage || x.sales_stage === filters.stage) &&
       (!filters.priority || x.priority === filters.priority) &&
