@@ -1,5 +1,26 @@
 # Google Sheet synchronization — ETU
 
+## Row compaction — 14 November 2026
+
+The application-owned Master and Activity tabs were rebuilt from their database
+jobs after blank and partially populated rows appeared in the live export. The
+original workbook was copied before repair, and `etu_recovery` holds database
+snapshots of the sync jobs, configuration, and sequence values. The original
+manual tabs were not changed.
+
+Sync was disabled while both job maps were renumbered and the old export area
+was cleared. Scheduled sync then repopulated Master rows 2–7 and Activity rows
+2–10. All 15 jobs were confirmed, their row IDs and key fields matched the
+database, and no old export rows remained. A rolled-back database transaction
+verified that a new lead would take Master row 8, a lead update would keep its
+row, and a new activity would take Activity row 11. No test record remained.
+
+Migrations `20261114090507` and `20261114091410` replace sequence-based row
+allocation with transactionally locked `max(row_number) + 1` allocation and
+preserve the activity's human-readable lead code. Future saves therefore use
+the next row after the highest assigned row. Never manually move or sort rows
+in the two app-owned tabs; use a filter view.
+
 Target workbook supplied by ETU:
 
 https://docs.google.com/spreadsheets/d/1zi-DybtGZDHgWVEPt1xpGXWQgKixxIPQQPZg6nIsDHg/edit
