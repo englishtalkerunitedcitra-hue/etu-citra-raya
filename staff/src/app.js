@@ -1,6 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import {
   PROGRAMS,
+  BRANCHES,
   FLOWS,
   STAGES,
   RESPONSES,
@@ -51,6 +52,7 @@ let client,
   directory = [],
   picks = [],
   mode = "priority",
+  selectedBranch = "all",
   loading = false,
   editing = null,
   pending = null,
@@ -67,14 +69,34 @@ for (const [name, values] of Object.entries({
   sales_stage: STAGES,
   response: RESPONSES,
   priority: PRIORITIES,
+  branch_code: BRANCHES,
 }))
   fill(formField(name), values);
+fill($("#invite-form").elements.branch_code, BRANCHES);
+function renderBranchTabs() {
+  const choices = profile?.role === "admin"
+    ? { all: "Semua Cabang", ...BRANCHES }
+    : { [profile.branch_code]: BRANCHES[profile.branch_code] };
+  $("#branch-tabs").replaceChildren(
+    ...Object.entries(choices).map(([code, label]) => {
+      const tab = button(label, () => {
+        selectedBranch = code;
+        renderBranchTabs();
+        render();
+      });
+      tab.classList.toggle("selected", code === selectedBranch);
+      tab.setAttribute("aria-pressed", String(code === selectedBranch));
+      return tab;
+    }),
+  );
+}
 fill(filtersForm.elements.stage, STAGES, "Semua tahap");
 fill(filtersForm.elements.response, RESPONSES, "Semua respons");
 fill(filtersForm.elements.priority, PRIORITIES, "Semua prioritas");
 function clearPrivate() {
   authEpoch++;
   profile = null;
+  selectedBranch = "all";
   leads = [];
   directory = [];
   picks = [];
@@ -136,7 +158,7 @@ async function load() {
     }
     const [rows, people, pinned, sheet] = await Promise.all([
       allRows("sales_leads"),
-      client.rpc("staff_directory"),
+      client.rpc("staff_directory_v2"),
       client
         .from("daily_top_picks")
         .select("*")
@@ -148,6 +170,7 @@ async function load() {
     if (pinned.error) throw pinned.error;
     if (epoch !== authEpoch) return;
     profile = me;
+    if (profile.role !== "admin") selectedBranch = profile.branch_code;
     leads = rows;
     directory = people.data;
     picks = pinned.data.map((x) => x.lead_id);
@@ -170,6 +193,7 @@ async function load() {
     $("#login-panel").hidden = true;
     $("#password-panel").hidden = true;
     $("#dashboard").hidden = false;
+    renderBranchTabs();
     $("#sync-status").textContent =
       `Database bersama · diperbarui ${dateTime(new Date().toISOString())}`;
     $("#admin-section").hidden = profile.role !== "admin";
@@ -202,6 +226,7 @@ async function load() {
 }
 function currentFilters() {
   const values = Object.fromEntries(new FormData(filtersForm));
+  values.branch = selectedBranch;
   values.dormant = filtersForm.elements.dormant.checked;
   return values;
 }
@@ -265,6 +290,7 @@ function render() {
       info.append(
         el("div", lead.name, "lead-name"),
         el("span", "ID " + (lead.lead_code || lead.id), "lead-id"),
+        el("span", BRANCHES[lead.branch_code] || "Cabang belum ditentukan", "lead-id"),
         el("p", PROGRAMS[lead.program] + " · " + nameOf(lead.pic_id)),
       );
       const next = el("div");
@@ -334,21 +360,35 @@ async function pin(id) {
   picks = ids;
   render();
 }
+function syncPicOptions(preferred) {
+  const branch = formField("branch_code").value;
+  const eligible = directory.filter((person) =>
+    person.role === "admin" || person.branch_code === branch,
+  );
+  const select = formField("pic_id");
+  fill(select, Object.fromEntries(eligible.map((person) => [person.id, person.display_name])));
+  if (editing && preferred === editing.pic_id &&
+      !eligible.some((person) => person.id === preferred)) {
+    select.prepend(option("", "PIC lama tidak tersedia — pilih PIC cabang ini"));
+    select.value = "";
+  } else {
+    select.value = eligible.some((person) => person.id === preferred)
+      ? preferred
+      : (eligible.find((person) => person.id === profile.id)?.id || eligible[0]?.id || "");
+  }
+}
+formField("branch_code").addEventListener("change", () =>
+  syncPicOptions(formField("pic_id").value),
+);
 async function openEditor(id = null) {
   if (saving) return;
   editing = id ? leads.find((x) => x.id === id) : null;
   pending = null;
   leadForm.reset();
+  const branchField = formField("branch_code");
+  branchField.value = editing?.branch_code || (selectedBranch === "all" ? profile.branch_code : selectedBranch);
+  branchField.disabled = profile.role !== "admin";
   $("#editor-error").hidden = true;
-  fill(
-    formField("pic_id"),
-    Object.fromEntries(directory.map((x) => [x.id, x.display_name])),
-  );
-  if (editing && !directory.some((x) => x.id === editing.pic_id))
-    formField("pic_id").append(
-      option(editing.pic_id, "PIC tidak aktif — admin perlu menetapkan ulang"),
-    );
-  formField("pic_id").value = editing?.pic_id || profile.id;
   formField("pic_id").disabled = profile.role !== "admin";
   formField("program").value = editing?.program || "undecided";
   formField("priority").value = editing?.priority || "medium";
@@ -363,6 +403,7 @@ async function openEditor(id = null) {
   for (const field of leadForm.querySelectorAll('[name^="master_"]')) {
     field.value = editing?.master_details?.[field.name.slice(7)] ?? "";
   }
+  syncPicOptions(editing?.pic_id || profile.id);
   $("#editor-title").textContent = editing ? "Update & follow-up" : "Lead baru";
   $("#lead-id").textContent = editing
     ? `Lead ID ${editing.lead_code || editing.id} · Versi ${editing.version} · Diperbarui ${dateTime(editing.updated_at)} oleh ${nameOf(editing.updated_by)}`
@@ -427,6 +468,7 @@ leadForm.addEventListener("submit", async (event) => {
   }
   data.master_details = masterDetails;
   data.pic_id = formField("pic_id").value;
+  data.branch_code = formField("branch_code").value;
   data.dormant = formField("dormant").checked;
   for (const name of ["last_contact_at", "trial_at"])
     data[name] = data[name] ? new Date(data[name]).toISOString() : null;
@@ -536,10 +578,20 @@ async function loadStaff() {
       role.setAttribute("aria-label", "Role " + person.display_name);
       fill(role, { staff: "Staf", admin: "Admin" });
       role.value = person.role;
+      const branch = el("select");
+      branch.setAttribute("aria-label", "Cabang " + person.display_name);
+      fill(branch, BRANCHES);
+      branch.value = person.branch_code;
       row.append(
         identity,
         el("span", person.active ? "Aktif" : "Nonaktif", "pill"),
         role,
+        branch,
+        button("Simpan cabang", async () => {
+          await adminCall({ action: "branch", id: person.id, branch_code: branch.value });
+          notify("Cabang staf berhasil diperbarui.");
+          await load();
+        }),
         button("Simpan role", async () => {
           await adminCall({
             action: "access",

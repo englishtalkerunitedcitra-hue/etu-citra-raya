@@ -295,6 +295,22 @@ h3 {
   border-left: 1px solid #d0dbe7;
   padding-left: 16px;
 }
+.branch-tabs {
+  display: flex;
+  gap: 9px;
+  overflow-x: auto;
+  padding: 0 0 18px;
+  margin-bottom: 4px;
+}
+.branch-tabs button {
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+.branch-tabs button.selected {
+  background: #075bb9;
+  border-color: #075bb9;
+  color: #fff;
+}
 .metrics {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -509,7 +525,7 @@ h3 {
 }
 .admin-panel .invite-form {
   display: grid;
-  grid-template-columns: 1fr 1.5fr auto;
+  grid-template-columns: 1fr 1.5fr 1fr auto;
   gap: 14px;
   align-items: end;
 }

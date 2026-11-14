@@ -57,6 +57,12 @@ const job: Job = {
     updated_at: "2026-11-08T00:00:00Z",
   },
 };
+Deno.test("Master export adds the branch after existing columns", () => {
+  assert(headers("master").length === 41);
+  assert(headers("master")[40] === "Cabang");
+  assert(range("ETU App - Master Prospek", 7, "master").endsWith("AO7"));
+  assert(cells({ ...job, payload: { ...job.payload, branch_code: "palem_semi" } })[40] === "ETU Palem Semi");
+});
 function provider(
   options: {
     unowned?: boolean;

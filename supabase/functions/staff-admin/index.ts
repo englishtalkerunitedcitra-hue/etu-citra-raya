@@ -56,6 +56,19 @@ Deno.serve(
       const text = await request.text();
       if (text.length > 8000) return reply({ error: "Request too large" }, 413);
       const body = JSON.parse(text);
+      if (body.action === "branch") {
+        if (!/^[0-9a-f-]{36}$/i.test(body.id || "") ||
+            !["taman_royal", "citra_raya", "palem_semi"].includes(body.branch_code))
+          return reply({ error: "Cabang tidak valid" }, 400);
+        const result = await fetch(`${url}/rest/v1/rpc/admin_set_staff_branch`, {
+          method: "POST",
+          headers: userHeaders,
+          body: JSON.stringify({ p_target: body.id, p_branch: body.branch_code }),
+        });
+        if (!result.ok)
+          return reply({ error: "Pindahkan dahulu prospek yang masih ditangani staf di cabang lama." }, result.status);
+        return reply({ ok: true });
+      }
       if (body.action === "access") {
         if (
           !/^[0-9a-f-]{36}$/i.test(body.id || "") ||
@@ -91,11 +104,13 @@ Deno.serve(
         .trim()
         .toLowerCase();
       const name = String(body.display_name || "").trim();
+      const branch = String(body.branch_code || "");
       if (
         !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ||
         email.length > 254 ||
         !name ||
         name.length > 100
+        || !["taman_royal", "citra_raya", "palem_semi"].includes(branch)
       )
         return reply({ error: "Nama dan email valid diperlukan" }, 400);
       if (!redirect || !allowedOrigins.length)
@@ -132,6 +147,13 @@ Deno.serve(
           502,
         );
       const invitedUser = await invited.json();
+      const branchGrant = await fetch(`${url}/rest/v1/rpc/admin_set_staff_branch`, {
+        method: "POST",
+        headers: userHeaders,
+        body: JSON.stringify({ p_target: invitedUser.id, p_branch: branch }),
+      });
+      if (!branchGrant.ok)
+        return reply({ error: "Undangan dikirim, tetapi cabang staf belum ditetapkan. Periksa daftar staf." }, 502);
       const grant = await fetch(`${url}/rest/v1/rpc/admin_set_staff_access`, {
         method: "POST",
         headers: userHeaders,

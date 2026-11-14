@@ -40,7 +40,8 @@ export const MASTER_HEADERS = [
   "Dibuat Pada",
   "Diubah Oleh ID",
   "Diubah Oleh",
-  "Diubah Pada"
+  "Diubah Pada",
+  "Cabang",
 ];
 export const ACTIVITY_HEADERS = [
   "Activity ID",
@@ -90,6 +91,11 @@ const programs = {
   "adult-talker": "Adult Talker",
   undecided: "Belum ditentukan",
 };
+const branches = {
+  taman_royal: "ETU Taman Royal",
+  citra_raya: "ETU Citra Raya",
+  palem_semi: "ETU Palem Semi",
+};
 export function headers(kind) {
   if (kind === "master") return MASTER_HEADERS;
   if (kind === "activity") return ACTIVITY_HEADERS;
@@ -125,6 +131,7 @@ export function cells(job) {
     p.dormant ? "Ya" : "Tidak", flows[p.flow_step] || p.flow_step, p.notes,
     d.legacy_lead_id, p.pic_id, p.created_by, p.created_by_name, p.created_at,
     p.updated_by, p.updated_by_name, p.updated_at,
+    branches[p.branch_code] || "ETU Citra Raya",
   ].map((x) => x ?? "");
 }
 export function column(count) {
